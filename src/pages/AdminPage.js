@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { Container, TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
 import classnames from 'classnames';
-import { faUserPlus, faHospitalUser } from "@fortawesome/free-solid-svg-icons";
+import { faUserPlus, faHospitalUser, faUserEdit } from "@fortawesome/free-solid-svg-icons";
 import { faCalendarCheck} from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import SignUpForm from "../components/SignUpForm"
+import SearchBar from "../components/SearchBar"
+import Calendar from "../components/Calendar"
 
 const AdminPage = (props) => {
   const [activeTab, setActiveTab] = useState('1');
@@ -28,12 +31,11 @@ const AdminPage = (props) => {
                                 <FontAwesomeIcon icon={faUserPlus} size="sm"/>
                             </Col>
                             <Col sm="10">
-                                Sign Up New User
+                                Register New User
                             </Col>    
                         </Row>
                     </NavLink>
                     </NavItem>
-            
                     <NavItem>
                     <NavLink
                         className={classnames({ active: activeTab === '2' })}
@@ -41,10 +43,10 @@ const AdminPage = (props) => {
                     >
                         <Row>
                             <Col sm="2">
-                                <FontAwesomeIcon icon={faCalendarCheck} size="sm"/>    
+                                <FontAwesomeIcon icon={faUserEdit} size="sm"/>  
                             </Col>
                             <Col sm="10">
-                                Appointment Schedules
+                                Edit User Profile
                             </Col>    
                         </Row>
                     </NavLink>
@@ -57,6 +59,21 @@ const AdminPage = (props) => {
                     >
                         <Row>
                             <Col sm="2">
+                                <FontAwesomeIcon icon={faCalendarCheck} size="sm"/>    
+                            </Col>
+                            <Col sm="10">
+                                Appointment Schedules
+                            </Col>    
+                        </Row>
+                    </NavLink>
+                    </NavItem>
+                    <NavItem>
+                    <NavLink
+                        className={classnames({ active: activeTab === '4' })}
+                        onClick={() => { toggle('4'); }}
+                    >
+                        <Row>
+                            <Col sm="2">
                                 <FontAwesomeIcon icon={faHospitalUser} size="sm"/>  
                             </Col>
                             <Col sm="10">
@@ -65,7 +82,6 @@ const AdminPage = (props) => {
                         </Row>
                     </NavLink>
                     </NavItem>
-
                 </Nav>
             
 
@@ -75,34 +91,31 @@ const AdminPage = (props) => {
                 <TabPane tabId="1">
                 <Row>
                     <Col sm="12">
-                    <h4>Tab 1 Contents</h4>
+                        <SignUpForm/>
                     </Col>
                 </Row>
                 </TabPane>
                 <TabPane tabId="2">
                 <Row>
                     <Col sm="12">
-                    <h5>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi non quis exercitationem culpa nesciunt nihil aut nostrum explicabo reprehenderit optio amet ab temporibus asperiores quasi cupiditate. Voluptatum ducimus voluptates voluptas?</h5>
+                        <SearchBar/>
+                        <br/>
+                        
                     </Col>
                 </Row>
                 </TabPane>
                 <TabPane tabId="3">
                 <Row>
-                    <Col sm="6">
-                    <Card body>
-                        <CardTitle>Special Title Treatment</CardTitle>
-                        <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                        <Button>Go somewhere</Button>
-                    </Card>
-                    </Col>
-                    <Col sm="6">
-                    <Card body>
-                        <CardTitle>Special Title Treatment</CardTitle>
-                        <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                        <Button>Go somewhere</Button>
-                    </Card>
+                    <Col sm="12">
+                        <SearchBar/>
+                        <br/>
+
                     </Col>
                 </Row>
+                </TabPane>
+                <TabPane tabId="4">
+                    <SearchBar/>
+                    <br/>
                 </TabPane>
             </TabContent>
         </Col>
