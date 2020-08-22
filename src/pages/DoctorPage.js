@@ -4,13 +4,11 @@ import classnames from 'classnames';
 import { faUserPlus, faHospitalUser, faUserEdit } from "@fortawesome/free-solid-svg-icons";
 import { faCalendarCheck} from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import SignUpForm from "../components/SignUpForm"
 import SearchBar from "../components/SearchBar"
 import Calendar from "../components/Calendar"
 import PatientList from "../components/PatientList"
-import EditUserForm from "../components/EditUserForm"
 
-const AdminPage = (props) => {
+const DoctorPage = (props) => {
   const [activeTab, setActiveTab] = useState('1');
 
   const toggle = tab => {
@@ -30,38 +28,7 @@ const AdminPage = (props) => {
                     >
                         <Row>
                             <Col sm="2">
-                                <FontAwesomeIcon icon={faUserPlus} size="sm"/>
-                            </Col>
-                            <Col sm="10">
-                                Register New User
-                            </Col>    
-                        </Row>
-                    </NavLink>
-                    </NavItem>
-                    <NavItem>
-                    <NavLink
-                        className={classnames({ active: activeTab === '2' })}
-                        onClick={() => { toggle('2'); }}
-                    >
-                        <Row>
-                            <Col sm="2">
-                                <FontAwesomeIcon icon={faUserEdit} size="sm"/>  
-                            </Col>
-                            <Col sm="10">
-                                Edit User Profile
-                            </Col>    
-                        </Row>
-                    </NavLink>
-                    </NavItem>
-
-                    <NavItem>
-                    <NavLink
-                        className={classnames({ active: activeTab === '3' })}
-                        onClick={() => { toggle('3'); }}
-                    >
-                        <Row>
-                            <Col sm="2">
-                                <FontAwesomeIcon icon={faCalendarCheck} size="sm"/>    
+                                <FontAwesomeIcon icon={faCalendarCheck} size="sm"/>
                             </Col>
                             <Col sm="10">
                                 Appointment Schedules
@@ -71,8 +38,8 @@ const AdminPage = (props) => {
                     </NavItem>
                     <NavItem>
                     <NavLink
-                        className={classnames({ active: activeTab === '4' })}
-                        onClick={() => { toggle('4'); }}
+                        className={classnames({ active: activeTab === '2' })}
+                        onClick={() => { toggle('2'); }}
                     >
                         <Row>
                             <Col sm="2">
@@ -93,7 +60,9 @@ const AdminPage = (props) => {
                 <TabPane tabId="1">
                 <Row>
                     <Col sm="12">
-                        <SignUpForm/>
+                        <SearchBar/>
+                        <br/>
+                        <Calendar/>
                     </Col>
                 </Row>
                 </TabPane>
@@ -102,23 +71,9 @@ const AdminPage = (props) => {
                     <Col sm="12">
                         <SearchBar/>
                         <br/>
-                        <EditUserForm/>
+                        <PatientList/>
                     </Col>
                 </Row>
-                </TabPane>
-                <TabPane tabId="3">
-                <Row>
-                    <Col sm="12">
-                        <SearchBar/>
-                        <br/>
-                        <Calendar/>
-                    </Col>
-                </Row>
-                </TabPane>
-                <TabPane tabId="4">
-                    <SearchBar/>
-                    <br/>
-                    <PatientList/>
                 </TabPane>
             </TabContent>
         </Col>
@@ -127,4 +82,4 @@ const AdminPage = (props) => {
   );
 }
 
-export default AdminPage;
+export default DoctorPage;

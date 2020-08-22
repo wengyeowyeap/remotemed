@@ -31,6 +31,16 @@ const Topbar = (props) => {
             </NavItem> */}
           </Nav>
           <NavbarText className= "mr-3">RemoteMed</NavbarText>
+
+          {/* temporary working use */}
+          <NavLink tag={RouterNavLink} to="/admin" style={{color:"lavender"}}>
+              Admin
+          </NavLink>
+          <NavLink tag={RouterNavLink} to="/doctor" style={{color:"lavender"}}>
+              Doctor
+          </NavLink>
+          {/* end */}
+
           <NavLink style={{color:"lavender"}}>
               Log In
           </NavLink>

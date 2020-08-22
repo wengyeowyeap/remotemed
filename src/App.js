@@ -4,6 +4,7 @@ import './App.css';
 import { Route, Switch } from "react-router-dom"
 import AdminPage from './pages/AdminPage';
 import HomeSignInPage from './pages/HomeSignInPage'
+import DoctorPage from './pages/DoctorPage'
 import Topbar from './components/Topbar';
 
 
@@ -20,6 +21,10 @@ function App() {
 
               <Route path="/admin">
                 <AdminPage/>
+              </Route>
+
+              <Route path="/doctor">
+                <DoctorPage/>
               </Route>
 
         </Switch>

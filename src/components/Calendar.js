@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import  { addMonths, subMonths, startOfWeek, endOfWeek, startOfMonth, endOfMonth, isSameDay, isSameMonth, addDays, format, parse } from "date-fns";
-// import "../styles/Calendar.css";
+import "../styles/Calendar.css";
 
 const Calendar = () => {
     const [currentDate, setCurrentDate] = useState(new Date());
@@ -8,16 +8,16 @@ const Calendar = () => {
     const header = () => {
     const dateFormat = "MMMM yyyy";
     return (
-       <div className="header row flex-middle">
-          <div className="column col-start">
+       <div className="header row-calendar flex-middle">
+          <div className="column text-center">
              <div className="icon" onClick={prevMonth}>
                 chevron_left
              </div>
           </div>
-          <div className="column col-center">
+          <div className="column text-center">
              <span>{format(currentDate, dateFormat)}</span>
           </div>
-          <div className="column col-end">
+          <div className="column text-center">
              <div className="icon" onClick={nextMonth}>
                 chevron_right
              </div>
@@ -32,12 +32,12 @@ const Calendar = () => {
     let startDate = startOfWeek(currentDate);
     for (let i = 0; i < 7; i++) {
           days.push(
-             <div className="column col-center" key={i}>
+             <div className="column text-center" key={i}>
              {format(addDays(startDate, i), dateFormat)}
              </div>
           );
        }
-       return <div className="days row">{days}</div>;
+       return <div className="days row-calendar ">{days}</div>;
     };
 
     const cells = () => {
@@ -69,7 +69,7 @@ const Calendar = () => {
        day = addDays(day, 1);
       }
     rows.push(
-          <div className="row" key={day}> {days} </div>
+          <div className="row-calendar" key={day}> {days} </div>
         );
        days = [];
      }
