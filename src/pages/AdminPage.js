@@ -9,6 +9,7 @@ import SearchBar from "../components/SearchBar"
 import Calendar from "../components/Calendar"
 import PatientList from "../components/PatientList"
 import EditUserForm from "../components/EditUserForm"
+import "../styles/Dashboard.css";
 
 const AdminPage = (props) => {
   const [activeTab, setActiveTab] = useState('1');
@@ -18,7 +19,8 @@ const AdminPage = (props) => {
   }
 
   return (
-      <Container className="mt-5">
+      <Container className="mt-5 mb-3 bg-light">
+        <div className="dashboard">
         <Row>
         <Col sm="3">
             
@@ -48,7 +50,7 @@ const AdminPage = (props) => {
                                 <FontAwesomeIcon icon={faUserEdit} size="sm"/>  
                             </Col>
                             <Col sm="10">
-                                Edit User Profile
+                                Edit Personal Profile
                             </Col>    
                         </Row>
                     </NavLink>
@@ -100,8 +102,6 @@ const AdminPage = (props) => {
                 <TabPane tabId="2">
                 <Row>
                     <Col sm="12">
-                        <SearchBar/>
-                        <br/>
                         <EditUserForm/>
                     </Col>
                 </Row>
@@ -123,6 +123,7 @@ const AdminPage = (props) => {
             </TabContent>
         </Col>
         </Row>
+        </div>
     </Container>
   );
 }

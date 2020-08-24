@@ -4,7 +4,7 @@ import axios from 'axios';
 import PatientReport from "./PatientReport"
 
 const PatientList = (props) => {
-    const{className, modalUp} = props;
+    const{className} = props;
     const [modal, setModal] = useState(false);
     const toggle = () => setModal(!modal);
     const [users, setUsers] = useState([]);
@@ -22,7 +22,7 @@ const PatientList = (props) => {
 
 
     return (
-        <Table>
+        <Table className="patient-list">
         <thead>
             <tr>
             <th>User ID</th>
@@ -37,7 +37,7 @@ const PatientList = (props) => {
                 <tr>
                 <td>{user.id}</td>
                 <td>
-                    <NavLink onClick={toggle}>{user.name}</NavLink>
+                    <NavLink onClick={toggle}>{user.username}</NavLink>
                     <Modal isOpen={modal} toggle={toggle} className={className}>
                         <PatientReport toggle={toggle}/>
                     </Modal>

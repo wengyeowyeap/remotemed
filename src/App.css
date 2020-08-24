@@ -1,5 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat');
+
 .App {
   text-align: center;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif !important;
+  background-image: url(https://image.freepik.com/free-vector/white-background-with-blue-tech-hexagon_1017-19366.jpg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
 }
 
 .App-logo {
@@ -37,6 +48,28 @@
   }
 }
 
-/* .nav-pills .nav-link.active{
-  background-color: navy !important;
-} */
+.navbar{
+  background-color:#E0ECDE;
+}
+
+#page-container {
+  position: relative;
+  min-height: 100vh;
+}
+
+#content-wrap {
+  padding-bottom: 5rem;    /* Footer height */
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  color:#E0ECDE;
+  padding: 15px;
+  background-color:#205072;
+}
+
+.patient-list .nav-link:hover {
+  cursor:pointer;
+}

@@ -211,10 +211,12 @@ const SignUpForm = () => {
       }
         return (
             <form  id="signup-form" onSubmit={handleSignUp}>
-                <h3>Register New User</h3>
+                <h3 style={{color:"#205072"}}>Register New User</h3>
 
                 <br/>
 
+            <Row form>
+                <Col md={9}>
                 <FormGroup>
                     <Label for="name">Name</Label>
                     <Input
@@ -226,7 +228,18 @@ const SignUpForm = () => {
                         value={name}
                     />
                     <FormText> *Please enter name as per NRIC</FormText>
-                </FormGroup>    
+                </FormGroup>
+                </Col>
+                <Col md={3}>
+                <FormGroup>
+                    <Label for="gender">Gender</Label>
+                    <Input type="select" name="gender" onChange={handleGenderInput} value={gender}>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </Input>
+                </FormGroup>
+                </Col>    
+            </Row>
 
             <Row form>
                 <Col md={6}>
@@ -276,14 +289,6 @@ const SignUpForm = () => {
                     {icFormFeedback}
                     <FormText> *Eg: 900101010001 </FormText>
                 </FormGroup> 
-
-                <FormGroup>
-                    <Label for="gender">Gender</Label>
-                    <Input type="select" name="gender" onChange={handleGenderInput} value={gender}>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                    </Input>
-                </FormGroup>
 
                 <FormGroup> 
                     <Label for="role">Role</Label>
@@ -368,7 +373,7 @@ const SignUpForm = () => {
                 </FormGroup>
                 
                 <br/>
-                <Input form="signup-form" type="submit" className="btn btn-primary btn-block" value="Register"/>{' '}
+                <Input form="signup-form" type="submit" className="btn btn-primary btn-block" value="REGISTER"/>{' '}
             </form>
         );
     }
