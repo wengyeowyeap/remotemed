@@ -1,29 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
+import React,{useState} from 'react';
 import './App.css';
-import { Route, Switch } from "react-router-dom"
+import { Route, Switch } from "react-router-dom";
+import { ToastContainer } from 'react-toastify';
 import AdminPage from './pages/AdminPage';
 import HomeSignInPage from './pages/HomeSignInPage'
+import DoctorPage from './pages/DoctorPage'
 import Topbar from './components/Topbar';
-
+import Footer from './components/Footer'
 
 function App() {
+  const [token, setToken] = useState(null)
+
   return (
     <>
-      <div>
-        <Topbar/>
-        <Switch>
+      <ToastContainer />
+        <div id="page-container">
+          <Topbar token={token} setToken={setToken}/>
+          <div className="container-fluid" id="content-wrap">
+          <Switch>
 
-              <Route exact path="/">
-                <HomeSignInPage/>
-              </Route>
+                <Route exact path="/">
+                  <HomeSignInPage token={token} setToken={setToken}/>
+                </Route>
 
-              <Route path="/admin">
-                <AdminPage/>
-              </Route>
+                <Route path="/admin">
+                  <AdminPage/>
+                </Route>
 
-        </Switch>
-      </div>
+                <Route path="/doctor">
+                  <DoctorPage/>
+                </Route>
+
+          </Switch>
+          </div>
+          <Footer/>     
+      </div>   
+  
     </>
         
   );

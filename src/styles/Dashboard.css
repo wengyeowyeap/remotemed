@@ -1,0 +1,18 @@
+.dashboard .nav-pills .nav-link.active{
+    background-color: #329D9C;
+  }
+  
+.dashboard a{
+    color: #329D9C;
+  }
+
+.dashboard .btn-primary {
+    color: #fff;
+    background-color: #329D9C;
+    border-color: #329D9C;
+    /* #E0ECDE */
+}
+
+.dashboard a:hover{
+  cursor:pointer;
+}
