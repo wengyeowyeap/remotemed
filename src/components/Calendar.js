@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import  { addMonths, subMonths, startOfWeek, endOfWeek, startOfMonth, endOfMonth, isSameDay, isSameMonth, addDays, format, parse } from "date-fns";
 import "../styles/Calendar.css";
 
-const Calendar = () => {
+const Calendar = (props) => {
+    const {showAppointment, setShowAppointment} = props;
     const [currentDate, setCurrentDate] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(new Date());
     const header = () => {
@@ -40,6 +41,15 @@ const Calendar = () => {
        return <div className="days row-calendar ">{days}</div>;
     };
 
+   //  const handleAppointment = (e) => {
+   //     if (showAppointment == null){
+   //        setShowAppointment(false);
+   //     } else{
+   //        setShowAppointment(true);
+   //     }
+       
+   //  }
+
     const cells = () => {
     const monthStart = startOfMonth(currentDate);
     const monthEnd = endOfMonth(monthStart);
@@ -60,7 +70,7 @@ const Calendar = () => {
            ? "disabled" : isSameDay(day, selectedDate) 
            ? "selected" : "" }`} 
            key={day} 
-           onClick={() => onDateClick(parse(cloneDay))}
+         //   onClick={handleAppointment}
            > 
            <span className="number">{formattedDate}</span>
            <span className="bg">{formattedDate}</span>

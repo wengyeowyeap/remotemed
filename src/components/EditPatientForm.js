@@ -3,7 +3,7 @@ import axios from 'axios'
 import { toast } from "react-toastify"
 import {FormFeedback, FormText,FormGroup,Label,Input, Col, Row} from 'reactstrap';
 
-const EditUserForm = () => {
+const EditPersonalForm = () => {
   //initial setup
   const [name, setName] = useState("");
   const [icNum, setIcNum] = useState("");
@@ -191,21 +191,11 @@ const EditUserForm = () => {
         const newGender = e.target.value
         setGender(newGender)  
       };
-      
-      let isDoctor
-      let isAdmin
+
       const handleRoleInput = e => {
         if (checkedRoles.includes(e.target.value)){
           checkedRoles.splice(checkedRoles.indexOf(e.target.value), 1)
           setRole(checkedRoles)
-          if(checkedRoles.includes(1)){
-            isDoctor = true
-            } else if(checkedRoles.includes(2)){
-              isAdmin = true
-            } else{
-              isDoctor = false
-              isAdmin = false
-            }
         } else{
           checkedRoles.push(e.target.value)
           setRole(checkedRoles)
@@ -255,6 +245,13 @@ const EditUserForm = () => {
                 </Col>
             </Row>
 
+                <FormGroup>
+                    <Label for="icNum">NRIC Number</Label>
+                    <Input disabled 
+                        placeholder="900101010101"
+                    />
+                </FormGroup>
+
             <Row form>
                 <Col md={6}>
                     <FormGroup>  
@@ -283,17 +280,8 @@ const EditUserForm = () => {
                     </FormGroup>
                 </Col>
             </Row>
-                <FormGroup>
-                    <Label for="icNum">NRIC Number</Label>
-                    <Input disabled 
-                        placeholder="900101010101"
-                    />
-                </FormGroup>
+ 
 
-            {
-            isDoctor && isAdmin
-              ? null
-              : <div>
                 <FormGroup> 
                       <Label for="role">Role</Label>
                           <div>
@@ -375,13 +363,11 @@ const EditUserForm = () => {
                                   value={guardianId}
                               />
                       </FormGroup>
-                    </div>
-                    
-                }
+
                 <br/>
-                <Input form="edituser-form" type="submit" className="btn btn-primary btn-block" value="EDIT"/>{' '}
+                <Input form="edituser-form" type="submit" className="btn btn-primary btn-block" value="EDIT & SAVE"/>{' '}
             </form>
         );
     }
 
-    export default EditUserForm;
+    export default EditPersonalForm;

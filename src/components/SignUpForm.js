@@ -2,22 +2,24 @@ import React, { useState } from "react";
 import axios from 'axios'
 import { toast } from "react-toastify"
 import {FormFeedback, FormText,FormGroup,Label,Input, Col, Row} from 'reactstrap';
-import { isValid } from "date-fns";
 
 const SignUpForm = () => {
   //initial setup
   const [name, setName] = useState("");
   const [icNum, setIcNum] = useState("");
+  const [guardianIcNum, setGuardianIcNum] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState ("");
   const [role, setRole] = useState ([]);
   const [gender, setGender] = useState ("male");
   const [disease, setDisease] = useState ([]);
-  const [guardianId, setGuardianId] = useState ("");
   //states for handling input
+  const [guardian, setGuardian] = useState({});
   const [delayIc, setDelayIc] = useState(null);
+  const [delayGuardianIc, setDelayGuardianIc] = useState(null);
   const [delayEmail, setDelayEmail] = useState(null);
   const [icNoDuplicate, setIcNoDuplicate] = useState(false);
+  const [icGuardianValid, setIcGuardianValid] = useState(false);
   const [emailNoDuplicate, setEmailNoDuplicate] = useState(false);
   const [checkedRoles, setCheckedRoles] = useState ([]);
   const [checkedDiseases, setCheckedDiseases] = useState ([]);
@@ -28,6 +30,10 @@ const SignUpForm = () => {
         axios({
           method: 'POST',
           url: 'http://127.0.0.1:5000/api/v1/users/create',
+          headers: 
+            {
+              "Authorization": "Bearer " + localStorage.getItem("token")
+            }, 
           data: {
             name: name,
             password: password,
@@ -36,7 +42,7 @@ const SignUpForm = () => {
             gender: gender,
             role: role,
             disease: disease,
-            guardianId: guardianId
+            guardian: guardianIcNum
           }
         })
         .then(response => {
@@ -54,9 +60,12 @@ const SignUpForm = () => {
           setEmail("")
           setIcNum("")
           setGender("male")
-          setRole("")
-          setDisease("")
-          setGuardianId("")
+          setGuardianIcNum("")
+          setRole([])
+          setDisease([])
+          setCheckedRoles([])
+          setCheckedDiseases([])
+          setTimeout(window.location.reload(false), 5000 )
         })
         .catch(error => {
           console.error(error.message)
@@ -104,6 +113,24 @@ const SignUpForm = () => {
               setIcNoDuplicate(true);
             } else {
               setIcNoDuplicate(false);
+            }
+          });
+      };
+
+      const checkGuardianAvailability = guardianIcNum => {
+        // this should only trigger after you stop typing for 500ms
+        console.log("Making API call to check guardian ic!");
+        axios
+          .get(
+            `http://127.0.0.1:5000/api/v1/users/check_guardian?guardian_id=${guardianIcNum}`
+          )
+          .then(response => {
+            setGuardian(response.data)
+            console.log(response.data);
+            if (response.data.valid) {
+              setIcGuardianValid(true);
+            } else {
+              setIcGuardianValid(false);
             }
           });
       };
@@ -172,15 +199,15 @@ const SignUpForm = () => {
       if (icNum.length === 0){
         icFormFeedback = <FormFeedback></FormFeedback>
       } else if (icNum.match(icformat) && icNoDuplicate){
-        icFormFeedback = <FormText color="success">IC is available</FormText>
+        icFormFeedback = <FormText color="success">NRIC is available</FormText>
         icIsValid = true
         icIsInvalid = false
       } else if (!icNum.match(icformat)){    
-        icFormFeedback = <FormText color="danger">Please input the correct IC format</FormText>
+        icFormFeedback = <FormText color="danger">Please input the correct NRIC format</FormText>
         icIsValid = false
         icIsInvalid = true
       } else if(!icNoDuplicate){    
-        icFormFeedback = <FormText color="danger">Sorry! That's an account exist for this IC Number.</FormText>
+        icFormFeedback = <FormText color="danger">Sorry! That's an account exist for this NRIC Number.</FormText>
         icIsValid = false
         icIsInvalid = true
       }
@@ -209,6 +236,38 @@ const SignUpForm = () => {
           setDisease(checkedDiseases)
         }
       }
+
+      const handleGuardianInput = e => {
+        // clears queue so that the old keystrokes don't trigger axios call
+        clearTimeout(delayGuardianIc);
+        const newGuardianIc = e.target.value
+        setGuardianIcNum(newGuardianIc)
+        // put each new keystroke into the queue
+        const newDelay = setTimeout(() => {      
+          checkGuardianAvailability(newGuardianIc);
+        }, 500);    
+        setDelayGuardianIc(newDelay);
+      };
+    
+      let icGuardianFormat = /([0-9]){2}([0-1]){1}([0-9]){1}([0-3]){1}([0-9]){7}/
+      let icGuardianFormFeedback
+      let icGuardianIsValid
+      let icGuardianIsInvalid
+      if (guardianIcNum.length === 0){
+        icGuardianFormFeedback = <FormFeedback></FormFeedback>
+      } else if (guardianIcNum.match(icGuardianFormat) && icGuardianValid){
+        icGuardianFormFeedback = <FormText color="success">Guardian's Name:{guardian.name}</FormText>
+        icGuardianIsValid = true
+        icGuardianIsInvalid = false
+      } else if (!guardianIcNum.match(icGuardianFormat)){    
+        icGuardianFormFeedback = <FormText color="danger">Please input the correct IC format</FormText>
+        icGuardianIsValid = false
+        icGuardianIsInvalid = true
+      } else if(!icGuardianValid){    
+        icGuardianFormFeedback = <FormText color="danger">Sorry! User not exist</FormText>
+        icGuardianIsValid = true
+        icGuardianIsInvalid = false
+      } 
         return (
             <form  id="signup-form" onSubmit={handleSignUp}>
                 <h3 style={{color:"#205072"}}>Register New User</h3>
@@ -241,6 +300,24 @@ const SignUpForm = () => {
                 </Col>    
             </Row>
 
+                <FormGroup>
+                    <Label for="icNum">NRIC Number</Label>
+                    <Input
+                        type="text"
+                        name="icNum"
+                        placeholder="Enter NRIC Number"
+                        pattern="[0-9]*"
+                        className="form-control"
+                        maxLength = "12" 
+                        onChange={handleIcInput}
+                        value={icNum}
+                        valid={icIsValid}
+                        invalid={icIsInvalid}
+                    />
+                    {icFormFeedback}
+                    <FormText> *Eg: 900101010001 </FormText>
+                </FormGroup> 
+
             <Row form>
                 <Col md={6}>
                     <FormGroup>  
@@ -272,23 +349,7 @@ const SignUpForm = () => {
                     </FormGroup>
                 </Col>
             </Row>
-                <FormGroup>
-                    <Label for="icNum">NRIC Number</Label>
-                    <Input
-                        type="text"
-                        name="icNum"
-                        placeholder="Enter NRIC Number"
-                        pattern="[0-9]*"
-                        className="form-control"
-                        maxLength = "12" 
-                        onChange={handleIcInput}
-                        value={icNum}
-                        valid={icIsValid}
-                        invalid={icIsInvalid}
-                    />
-                    {icFormFeedback}
-                    <FormText> *Eg: 900101010001 </FormText>
-                </FormGroup> 
+
 
                 <FormGroup> 
                     <Label for="role">Role</Label>
@@ -361,15 +422,19 @@ const SignUpForm = () => {
                 </FormGroup>
 
                 <FormGroup>  
-                        <Label for="guardianId">Guardian</Label>
+                        <Label for="guardian_id">Guardian</Label>
                         <Input
-                            type="guardianId"
-                            name="guardianId"
-                            placeholder="Enter Guardian's IC Number"
+                            type="guardianIcNum"
+                            name="guardian"
+                            maxLength = "12" 
+                            placeholder="Enter Guardian's NRIC Number"
                             className="form-control" 
-                          
-                            value={guardianId}
+                            onChange={handleGuardianInput}
+                            value={guardianIcNum}
+                            valid={icGuardianIsValid}
+                            invalid={icGuardianIsInvalid}
                         />
+                        {icGuardianFormFeedback}
                 </FormGroup>
                 
                 <br/>

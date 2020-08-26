@@ -73,3 +73,24 @@ body {
 .patient-list .nav-link:hover {
   cursor:pointer;
 }
+
+
+.Toastify__toast-container {
+  width: 320px;
+}
+.Toastify__toast--default {
+    background: #fff;
+    color: #aaa;
+ }
+  .Toastify__toast--info {
+    background: #3498db;
+ }
+  .Toastify__toast--success {
+    background: #205072 !important;
+ }
+  .Toastify__toast--warning {
+    background: #f1c40f;
+ }
+  .Toastify__toast--error {
+    background: #e74c3c;
+ }

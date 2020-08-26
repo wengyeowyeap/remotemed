@@ -1,5 +1,5 @@
 import React,{ useState } from "react";
-import { Row, Col, FormText, FormFeedback, Modal, Button } from 'reactstrap';
+import { Row} from 'reactstrap';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import "../styles/SearchBar.css";
@@ -7,9 +7,6 @@ import axios from 'axios'
 
 
 const SearchBar = (props) => {
-    const{className, modalSearch, toggleModalSearch} = props;
-    const [modal, setModal] = useState(false);
-    const toggle = () => setModal(!modal);
     const [icNum, setIcNum] = useState("");
     const [icExist, setIcExist] = useState(false);
     const [delayIc, setDelayIc] = useState(null);
@@ -18,7 +15,7 @@ const SearchBar = (props) => {
         console.log("Making API call to check ic!");
         axios
           .get(
-            `http://127.0.0.1:5000/api/v1/users/check_ic?ic=${icNum}`
+            `http://127.0.0.1:5000/api/v1/records/show?ic_number=${icNum}`
           )
           .then(response => {
             console.log(response.data);
@@ -42,25 +39,6 @@ const SearchBar = (props) => {
         setDelayIc(newDelay);
       };
 
-      let icformat = /([0-9]){2}([0-1]){1}([0-9]){1}([0-3]){1}([0-9]){7}/
-      let icFormFeedback
-      let icIsValid
-      let icIsInvalid
-      if (icNum.length === 0){
-        icFormFeedback = <FormFeedback></FormFeedback>
-      } else if (icNum.match(icformat) && icExist){
-        icFormFeedback = <FormText color="success">IC is available</FormText>
-        icIsValid = true
-        icIsInvalid = false
-      } else if (!icNum.match(icformat)){    
-        icFormFeedback = <FormText color="danger">Please input the correct IC format</FormText>
-        icIsValid = false
-        icIsInvalid = true
-      } else if(!icExist){    
-        icFormFeedback = <FormText color="danger">Sorry! That's an account exist for this IC Number.</FormText>
-        icIsValid = false
-        icIsInvalid = true
-      }
 
     return(
         <div>
@@ -69,7 +47,7 @@ const SearchBar = (props) => {
                     <div className="d-flex justify-content-end h-100">
                         <div className="searchbar">
                         <input className="search_input" maxLength = "12" type="text" onChange={handleIcSearch} name="" placeholder="Search NRIC Number..."/>
-                        <button className="search_icon">
+                        <button className="search_icon" onClick={handleIcSearch}>
                             <FontAwesomeIcon icon={faSearch} size="sm"/>
                         </button>
                         </div>

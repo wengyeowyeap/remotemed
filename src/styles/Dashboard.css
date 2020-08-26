@@ -13,3 +13,6 @@
     /* #E0ECDE */
 }
 
+.dashboard a:hover{
+  cursor:pointer;
+}

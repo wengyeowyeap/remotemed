@@ -1,27 +1,22 @@
 import React from 'react';
 import LoginForm from '../components/LoginForm'
-import { Container } from 'reactstrap';
+import { Col, Row} from 'reactstrap';
 
 
 
 
-const HomeSignInPage = () => {
+const HomeSignInPage = (props) => {
+  const {token, setToken} = props
   document.title="HomePage"
 
   return <>
 
-
-    <Container className='mt-5'>
-
-      <LoginForm></LoginForm>
-
-    </Container>
-
-
+    <Row className='justify-content-center'>
+    <Col md="6" className='mt-5 bg-light'>
+      <LoginForm token={token} setToken={setToken}></LoginForm>
+    </Col>
+    </Row>
   </>
-
-
-
 
 }
 

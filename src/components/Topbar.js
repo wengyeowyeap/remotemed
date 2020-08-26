@@ -11,11 +11,23 @@ import {
 } from 'reactstrap';
 import { NavLink as RouterNavLink } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useHistory } from 'react-router-dom';
+import { faSignOutAlt} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Topbar = (props) => {
+  const {token, setToken} = props
+  const history = useHistory()
+
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
+
+  const handleSignOut = () => {
+    localStorage.removeItem("token")
+    setToken(null)
+    history.push("/")
+  }
 
   return (
     <div>
@@ -43,9 +55,15 @@ const Topbar = (props) => {
           {/* end */}
 
           <NavLink style={{color:"#205072"}}>
-              Log In
+              {
+                token
+                  ? <NavLink style={{color:"#205072", cursor:"pointer"}}onClick={handleSignOut}>
+                      <FontAwesomeIcon icon={faSignOutAlt} size="sm" className="mr-2"/>Logout
+                    </NavLink> 
+                  : <> </>
+                }
           </NavLink>
-          
+
         </Collapse>
       </Navbar>
     </div>

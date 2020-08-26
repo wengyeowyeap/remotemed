@@ -1,5 +1,4 @@
-import React from 'react';
-import logo from './logo.svg';
+import React,{useState} from 'react';
 import './App.css';
 import { Route, Switch } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
@@ -10,16 +9,18 @@ import Topbar from './components/Topbar';
 import Footer from './components/Footer'
 
 function App() {
+  const [token, setToken] = useState(null)
+
   return (
     <>
       <ToastContainer />
         <div id="page-container">
-          <Topbar/>
-          <div id="content-wrap">
+          <Topbar token={token} setToken={setToken}/>
+          <div className="container-fluid" id="content-wrap">
           <Switch>
 
                 <Route exact path="/">
-                  <HomeSignInPage/>
+                  <HomeSignInPage token={token} setToken={setToken}/>
                 </Route>
 
                 <Route path="/admin">
