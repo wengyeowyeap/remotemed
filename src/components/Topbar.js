@@ -11,9 +11,13 @@ import {
 } from 'reactstrap';
 import { NavLink as RouterNavLink } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+<<<<<<< HEAD
+import LoginModal from './LoginModal'
+=======
 import { useHistory } from 'react-router-dom';
 import { faSignOutAlt} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+>>>>>>> 19be9350695a569cf020371c898937dd3570ba28
 
 const Topbar = (props) => {
   const {token, setToken} = props
@@ -44,6 +48,11 @@ const Topbar = (props) => {
               <NavLink tag={RouterNavLink} to="/">Home</NavLink>
             </NavItem> */}
           </Nav>
+<<<<<<< HEAD
+          <NavbarText className= "mr-3">RemoteMed</NavbarText>
+          <NavLink style={{color:"lavender"}}>
+             <LoginModal/>
+=======
 
           {/* temporary working use */}
           <NavLink tag={RouterNavLink} to="/admin" style={{color:"#205072"}}>
@@ -51,6 +60,7 @@ const Topbar = (props) => {
           </NavLink>
           <NavLink tag={RouterNavLink} to="/doctor" style={{color:"#205072"}}>
               Doctor
+>>>>>>> 19be9350695a569cf020371c898937dd3570ba28
           </NavLink>
           {/* end */}
 
