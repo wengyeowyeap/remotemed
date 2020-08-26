@@ -11,6 +11,7 @@ import {
 } from 'reactstrap';
 import { NavLink as RouterNavLink } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import LoginModal from './LoginModal'
 
 const Topbar = (props) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -32,7 +33,7 @@ const Topbar = (props) => {
           </Nav>
           <NavbarText className= "mr-3">RemoteMed</NavbarText>
           <NavLink style={{color:"lavender"}}>
-              Log In
+             <LoginModal/>
           </NavLink>
         </Collapse>
       </Navbar>
