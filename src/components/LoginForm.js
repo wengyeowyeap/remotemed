@@ -1,10 +1,11 @@
-import React ,{useState,useEffect} from 'react';
+import React ,{useState } from 'react';
 import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import axios from 'axios'
 import { toast } from 'react-toastify';
 import { useHistory } from 'react-router-dom';
 
 const LoginForm = (props) => {
+    const {setToken} = props
     const [ic , setIc]=useState("")
     const [password, setPassword]=useState("")
     const history=useHistory()
@@ -18,9 +19,7 @@ const LoginForm = (props) => {
         }
         if (e.target.name==="password"){
             setPassword(e.target.value)
-        }
-
-      
+        }      
     }
 
     const handleLogin=(e) => {
@@ -37,7 +36,8 @@ const LoginForm = (props) => {
         .then(result=>{
             console.log(result)
             toast.success(result.data.message)
-            localStorage.setItem("token",result.auth_token)
+            localStorage.setItem("token",result.data.auth_token)
+            setToken(result.data.auth_token)
             setPassword("")
             setIc("")
             if (result.data.user.role.includes("patient")){
@@ -60,6 +60,9 @@ const LoginForm = (props) => {
 
 
   return (
+    <>
+    <h3 style={{color:"#205072"}}>Login</h3>
+    <br/>
     <Form id="login-form" onSubmit={handleLogin}>
       <FormGroup>
         <Label for="identificationNumber">NRIC Number</Label>
@@ -70,9 +73,11 @@ const LoginForm = (props) => {
         <Label for="examplePassword">Password</Label>
         <Input type="password" name="password" id="examplePassword" placeholder="Enter Password" value={password} onChange={handleInput} />
       </FormGroup>
-     
-      <Button color="success">Submit</Button>
+
+      <br/>
+      <Button className="btn btn-block" style={{backgroundColor:"#329D9C", color:"white", borderColor:"#329D9C"}}>Submit</Button>
     </Form>
+    </>
   );
 }
 
