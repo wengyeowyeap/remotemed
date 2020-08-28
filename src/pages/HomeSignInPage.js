@@ -9,14 +9,15 @@ const HomeSignInPage = (props) => {
   const {token, setToken} = props
   document.title="HomePage"
 
-  return <>
-
+  return (
+  
+  <>
     <Row className='justify-content-center'>
     <Col md="6" className='mt-5 bg-light'>
       <LoginForm token={token} setToken={setToken}></LoginForm>
     </Col>
     </Row>
-  </>
+  </>)
 
 }
 

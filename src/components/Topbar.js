@@ -5,9 +5,7 @@ import {
   NavbarToggler,
   NavbarBrand,
   Nav,
-  NavItem,
   NavLink,
-  NavbarText
 } from 'reactstrap';
 import { NavLink as RouterNavLink } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -51,6 +49,9 @@ const Topbar = (props) => {
           </NavLink>
           <NavLink tag={RouterNavLink} to="/doctor" style={{color:"#205072"}}>
               Doctor
+          </NavLink>
+          <NavLink tag={RouterNavLink} to="/patient" style={{color:"#205072"}}>
+              Patient
           </NavLink>
           {/* end */}
 

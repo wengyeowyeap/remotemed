@@ -1,19 +1,18 @@
 import React, { useState } from 'react';
 import { Container, TabContent, TabPane, Nav, NavItem, NavLink, Row, Col } from 'reactstrap';
 import classnames from 'classnames';
-import { faHospitalUser, faEdit } from "@fortawesome/free-solid-svg-icons";
-import { faCalendarCheck} from "@fortawesome/free-regular-svg-icons";
+import { faHospitalUser, faEdit, faCalendarCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SearchBar from "../components/SearchBar"
 import Calendar from "../components/Calendar"
 import PatientList from "../components/PatientList"
-import EditUserForm from "../components/EditPersonalForm"
+import EditPersonalForm from "../components/EditPersonalForm"
 import "../styles/Dashboard.css";
 
 const DoctorPage = (props) => {
   const{isDoctor} = props
   const [activeTab, setActiveTab] = useState('1');
-
+  const [user, setUser] = useState({});
   const toggle = tab => {
     if(activeTab !== tab) setActiveTab(tab);
   }
@@ -21,7 +20,7 @@ const DoctorPage = (props) => {
   return (
       <Container className="mt-5 mb-3 bg-light">
         <div className="dashboard">
-        <h2 style={{color:"#205072"}}> - Welcome, Dr. StellaLuna - </h2>
+        <h2 style={{color:"#205072"}}> - Welcome, Dr. {user.name} - </h2>
         <br/>
         <Row>
         <Col sm="3">
@@ -86,14 +85,12 @@ const DoctorPage = (props) => {
                 </TabPane>
                 <TabPane tabId="2">
                     <Col sm="12">
-                        <SearchBar/>
-                        <br/>
                         <PatientList/>
                     </Col>
                 </TabPane>
                 <TabPane tabId="3">              
                     <Col sm="12">
-                        <EditUserForm isDoctor={isDoctor}/>
+                        <EditPersonalForm user={user} setUser={setUser}/>
                     </Col>              
                 </TabPane>
             </TabContent>
