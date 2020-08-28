@@ -3,13 +3,15 @@ import {Button, ModalFooter, ModalHeader, ModalBody,Table} from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const PatientReport = (props) => {
-    const {toggle} = props
+    const {toggle, user, report, sugarLevel, cholesterolLevel, bloodPressure,} = props
+    console.log(user)
 
+      
     return(
         <div className = "d-flex flex-column mx-2">
             <ModalHeader toggle={toggle}>
-                <h3>HelloWorld's Report</h3>
-                <small>- Datetime -</small>
+                <h3> <span style={{color:"#205072", fontWeight:"bold", textTransform:"uppercase"}}>{user.name}</span>'s Report</h3>
+                    <small>- Datetime -</small>
             </ModalHeader> 
             <ModalBody>
                 <Table className="patient-report table-borderless">
@@ -20,19 +22,19 @@ const PatientReport = (props) => {
                     </tr>
                     <tr>
                         <th scope="row">Glucose Level</th>
-                        <td>________mmol/L</td>
+                        <td>{user.sugarLevel}mmol/L</td>
                     </tr>
                     <tr>
                         <th scope="row">Blood Pressure</th>
-                        <td>SYS________mmHg ; DIA________mmHg</td>
+                        <td>SYS{user.bloodPressure}mmHg ; DIA________mmHg</td>
                     </tr>
                     <tr>
                         <th scope="row">Cholesterol Level</th>
-                        <td>TC________mmol/L ; HDL________mmol/L ; TG________mmol/L ; LDL________mmol/L</td>
+                        <td>TC{user.cholesterolLevel}mmol/L ; HDL________mmol/L ; TG________mmol/L ; LDL________mmol/L</td>
                     </tr>
                     <tr>
                         <th scope="row">Report</th>
-                        <td>lorem is not just a normal snippet—it’s actually a generator. Every time you expand it, it will generate a 30-words dummy text, splitted into a few sentences.</td>
+                        <td>{user.report}lorem is not just a normal snippet—it’s actually a generator. Every time you expand it, it will generate a 30-words dummy text, splitted into a few sentences.</td>
                     </tr>
                     <tr>
                         <th scope="row">Images</th>

@@ -69,8 +69,7 @@ const SignUpForm = () => {
         })
         .catch(error => {
           console.error(error.message)
-          for (let message of error.message){
-            toast.error((message), {
+            toast.error((error.message), {
               position: "top-right",
               autoClose: 5000,
               hideProgressBar: false,
@@ -78,7 +77,6 @@ const SignUpForm = () => {
               pauseOnHover: true,
               draggable: true
             });
-          }
         })
       }
 

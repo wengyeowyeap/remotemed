@@ -3,9 +3,10 @@ import axios from 'axios'
 import { toast } from "react-toastify"
 import {FormFeedback, FormText,FormGroup,Label,Input, Col, Row} from 'reactstrap';
 
-const EditPatientForm = () => {
+const EditPersonalForm = (props) => {
+  const {user, setUser} = props;
   //initial setup
-  const [user, setUser] = useState({});
+  // const [user, setUser] = useState({});
   const [name, setName] = useState("");
   const [icNum, setIcNum] = useState("");
   const [email, setEmail] = useState("");
@@ -142,6 +143,10 @@ const EditPatientForm = () => {
       let emailIsInvalid
       if (email.length === 0){
         emailFormFeedback = <FormFeedback></FormFeedback>
+      } else if (email == user.email) {
+        emailFormFeedback = <FormText color="success">Maintain Email</FormText>
+        emailIsValid = true
+        emailIsInvalid = false
       } else if (email.match(mailformat) && emailNoDuplicate){
         emailFormFeedback = <FormText color="success">Email available</FormText>
         emailIsValid = true
@@ -227,7 +232,10 @@ const EditPatientForm = () => {
                             className="form-control" 
                             onChange={handleEmailInput}
                             value={email}
+                            valid={emailIsValid}
+                            invalid={emailIsInvalid}
                         />
+                        {emailFormFeedback}
                     </FormGroup>
                 </Col>
             </Row>
@@ -238,4 +246,4 @@ const EditPatientForm = () => {
         );
     }
 
-    export default EditPatientForm;
+    export default EditPersonalForm;

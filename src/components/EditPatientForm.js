@@ -2,11 +2,16 @@ import React, { useState } from "react";
 import axios from 'axios'
 import { toast } from "react-toastify"
 import {FormFeedback, FormText,FormGroup,Label,Input, Col, Row} from 'reactstrap';
+import SearchBar from "./SearchBar"
 
-const EditPersonalForm = () => {
+const EditPatientForm = () => {
+
+
   //initial setup
+  const [user, setUser] = useState("");
   const [name, setName] = useState("");
   const [icNum, setIcNum] = useState("");
+  const [guardianIcNum, setGuardianIcNum] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState ("");
   const [role, setRole] = useState ([]);
@@ -14,19 +19,61 @@ const EditPersonalForm = () => {
   const [disease, setDisease] = useState ([]);
   const [guardianId, setGuardianId] = useState ("");
   //states for handling input
+  const [guardian, setGuardian] = useState({});
   const [delayIc, setDelayIc] = useState(null);
+  const [delayGuardianIc, setDelayGuardianIc] = useState(null);
   const [delayEmail, setDelayEmail] = useState(null);
   const [icExist, setIcExist] = useState(false);
+  const [icGuardianValid, setIcGuardianValid] = useState(false);
   const [emailNoDuplicate, setEmailNoDuplicate] = useState(false);
   const [checkedRoles, setCheckedRoles] = useState ([]);
   const [checkedDiseases, setCheckedDiseases] = useState ([]);
 
-    const handleEditUser = (e) =>{
+  const [searchIc, setSearchIc] = useState('');
+
+    const handleButtonClick = (e) =>{
+      console.log(searchIc)
+      axios.get(`http://127.0.0.1:5000/api/v1/users/show_patient?ic_number=${searchIc}`, 
+      {
+        headers: {
+          "Authorization": "Bearer " + localStorage.getItem("token")
+        }
+      })
+        .then(result => {
+          let user = result.data
+          console.log(result.data)
+          console.log(user.name, user.email, user.ic_number)
+          setUser(result.data)
+          setName(user.name)
+          setEmail(user.email)
+          setIcNum(user.ic_number)
+          setGender(user.gender)
+          setRole(user.role)
+          setDisease(user.Disease)
+          setSearchIc("")
+        })
+        .catch(error => {
+          console.log('ERROR: ', error)
+      })
+    }
+
+    const handleKeypress = e => {
+      //it triggers by pressing the enter key
+    if (e.key === "Enter") {
+      handleButtonClick();
+      }
+    };
+
+    const handleEditPatient = (e) =>{
         e.preventDefault()
         console.log(name,password,email,icNum,gender, role, disease)
         axios({
           method: 'POST',
           url: 'http://127.0.0.1:5000/api/v1/users/edit',
+          headers: 
+          {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+          }, 
           data: {
             name: name,
             password: password,
@@ -35,7 +82,7 @@ const EditPersonalForm = () => {
             gender: gender,
             role: role,
             disease: disease,
-            guardianId: guardianId
+            guardian: guardianIcNum
           }
         })
         .then(response => {
@@ -59,8 +106,8 @@ const EditPersonalForm = () => {
         })
         .catch(error => {
           console.error(error.message)
-          for (let message of error.message){
-            toast.error((message), {
+          // for (let message of error.message){
+            toast.error((error.message), {
               position: "top-right",
               autoClose: 5000,
               hideProgressBar: false,
@@ -68,7 +115,7 @@ const EditPersonalForm = () => {
               pauseOnHover: true,
               draggable: true
             });
-          }
+          // }
         })
       }
 
@@ -107,6 +154,23 @@ const EditPersonalForm = () => {
           });
       };
 
+        const checkGuardianAvailability = guardianIcNum => {
+          // this should only trigger after you stop typing for 500ms
+          console.log("Making API call to check guardian ic!");
+          axios
+            .get(
+              `http://127.0.0.1:5000/api/v1/users/check_guardian?guardian_id=${guardianIcNum}`
+            )
+            .then(response => {
+              setGuardian(response.data)
+              console.log(response.data);
+              if (response.data.valid) {
+                setIcGuardianValid(true);
+              } else {
+                setIcGuardianValid(false);
+              }
+            });
+        };
 // ====================== END OF AXIOS ========================================================
 // ====================== HANDLE INPUT START ================================================
 
@@ -141,6 +205,10 @@ const EditPersonalForm = () => {
       let emailIsInvalid
       if (email.length === 0){
         emailFormFeedback = <FormFeedback></FormFeedback>
+      } else if (email == user.email) {
+        emailFormFeedback = <FormText color="success">Maintain Email</FormText>
+        emailIsValid = true
+        emailIsInvalid = false
       } else if (email.match(mailformat) && emailNoDuplicate){
         emailFormFeedback = <FormText color="success">Email available</FormText>
         emailIsValid = true
@@ -167,25 +235,38 @@ const EditPersonalForm = () => {
         setDelayIc(newDelay);
       };
     
-      let icformat = /([0-9]){2}([0-1]){1}([0-9]){1}([0-3]){1}([0-9]){7}/
-      let icFormFeedback
-      let icIsValid
-      let icIsInvalid
-      if (icNum.length === 0){
-        icFormFeedback = <FormFeedback></FormFeedback>
-      } else if (icNum.match(icformat) && icExist){
-        icFormFeedback = <FormText color="success">IC is available</FormText>
-        icIsValid = true
-        icIsInvalid = false
-      } else if (!icNum.match(icformat)){    
-        icFormFeedback = <FormText color="danger">Please input the correct IC format</FormText>
-        icIsValid = false
-        icIsInvalid = true
-      } else if(!icExist){    
-        icFormFeedback = <FormText color="danger">Sorry! That's an account exist for this IC Number.</FormText>
-        icIsValid = false
-        icIsInvalid = true
-      }
+      const handleGuardianInput = e => {
+        // clears queue so that the old keystrokes don't trigger axios call
+        clearTimeout(delayGuardianIc);
+        const newGuardianIc = e.target.value
+        setGuardianIcNum(newGuardianIc)
+        // put each new keystroke into the queue
+        const newDelay = setTimeout(() => {      
+          checkGuardianAvailability(newGuardianIc);
+        }, 500);    
+        setDelayGuardianIc(newDelay);
+      };
+    
+      let icGuardianFormat = /([0-9]){2}([0-1]){1}([0-9]){1}([0-3]){1}([0-9]){7}/
+      let icGuardianFormFeedback
+      let icGuardianIsValid
+      let icGuardianIsInvalid
+      if (guardianIcNum.length === 0){
+        icGuardianFormFeedback = <FormFeedback></FormFeedback>
+      } else if (guardianIcNum.match(icGuardianFormat) && icGuardianValid){
+        icGuardianFormFeedback = <FormText color="success">Guardian's Name: <strong>{guardian.name}</strong></FormText>
+        icGuardianIsValid = true
+        icGuardianIsInvalid = false
+      } else if (!guardianIcNum.match(icGuardianFormat)){    
+        icGuardianFormFeedback = <FormText color="danger">Please input the correct IC format</FormText>
+        icGuardianIsValid = false
+        icGuardianIsInvalid = true
+      } else if(!icGuardianValid){    
+        icGuardianFormFeedback = <FormText color="danger">Sorry! User not exist</FormText>
+        icGuardianIsValid = true
+        icGuardianIsInvalid = false
+      } 
+
 
       const handleGenderInput = e => {
         const newGender = e.target.value
@@ -213,8 +294,12 @@ const EditPersonalForm = () => {
       }
 
         return (
-            <form  id="edituser-form" onSubmit={handleEditUser}>
-                <h3 style={{color:"#205072"}}>Edit Personal Profile</h3>
+          <>
+          <SearchBar onButtonClick={handleButtonClick} searchIc={searchIc} setSearchIc={setSearchIc} onEnterPress={handleKeypress} />
+            <br/>
+
+            <form onSubmit={handleEditPatient}>
+                <h3 style={{color:"#205072"}}>Edit Patient's Profile</h3>
 
                 <br/>
 
@@ -225,7 +310,7 @@ const EditPersonalForm = () => {
                     <Input
                         type="text"
                         name="name"
-                        placeholder="Enter Name"
+                        placeholder={user.name}
                         className="form-control" 
                         onChange={handleNameInput}
                         value={name}
@@ -237,7 +322,6 @@ const EditPersonalForm = () => {
                 <FormGroup>
                     <Label for="gender">Gender</Label>
                     <Input type="select" name="gender" onChange={handleGenderInput} value={gender}>
-                        <option value="choose">Choose</option>
                         <option value="male">Male</option>
                         <option value="female">Female</option>
                     </Input>
@@ -248,7 +332,8 @@ const EditPersonalForm = () => {
                 <FormGroup>
                     <Label for="icNum">NRIC Number</Label>
                     <Input disabled 
-                        placeholder="900101010101"
+                        placeholder=""
+                        value={user.ic_number}
                     />
                 </FormGroup>
 
@@ -276,7 +361,10 @@ const EditPersonalForm = () => {
                             className="form-control" 
                             onChange={handleEmailInput}
                             value={email}
+                            valid={emailIsValid}
+                            invalid={emailIsInvalid}
                         />
+                        {emailFormFeedback}
                     </FormGroup>
                 </Col>
             </Row>
@@ -287,25 +375,25 @@ const EditPersonalForm = () => {
                           <div>
                               <FormGroup check inline>
                                   <Label check>
-                                  <Input type="checkbox" name="role" onChange={handleRoleInput} value={1}/> Doctor
+                                  <Input type="checkbox" name="role" onChange={handleRoleInput} value={1}/> Patient
                                   </Label>
                               </FormGroup>
                               
                               <FormGroup check inline>
                                   <Label check>
-                                  <Input type="checkbox" name="role" onChange={handleRoleInput} value={2}/> Admin
+                                  <Input type="checkbox" name="role" onChange={handleRoleInput} value={2}/> Guardian
                                   </Label>
                               </FormGroup>
 
                               <FormGroup check inline>
                                   <Label check>
-                                  <Input type="checkbox" name="role" onChange={handleRoleInput} value={3}/> Patient
+                                  <Input type="checkbox" name="role" onChange={handleRoleInput} value={3}/> Doctor
                                   </Label>
                               </FormGroup>
 
                               <FormGroup check inline>
                                   <Label check>
-                                  <Input type="checkbox" name="role" onChange={handleRoleInput} value={4} /> Guardian
+                                  <Input type="checkbox" name="role" onChange={handleRoleInput} value={4} /> Admin
                                   </Label>
                               </FormGroup>
                           </div>
@@ -357,17 +445,22 @@ const EditPersonalForm = () => {
                               <Input
                                   type="guardianId"
                                   name="guardianId"
-                                  placeholder="Enter Guardian's IC Number"
+                                  maxLength = "12"
+                                  placeholder="Enter Guardian's NRIC Number"
                                   className="form-control" 
-                                  onChange={handleIcInput}
-                                  value={guardianId}
+                                  onChange={handleGuardianInput}
+                                  value={guardianIcNum}
+                                  valid={icGuardianIsValid}
+                                  invalid={icGuardianIsInvalid}
                               />
+                              {icGuardianFormFeedback}
                       </FormGroup>
 
                 <br/>
-                <Input form="edituser-form" type="submit" className="btn btn-primary btn-block" value="EDIT & SAVE"/>{' '}
+                <Input type="submit" className="btn btn-primary btn-block" value="EDIT & SAVE"/>{' '}
             </form>
+            </>
         );
     }
 
-    export default EditPersonalForm;
+    export default EditPatientForm;

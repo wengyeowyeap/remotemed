@@ -1,8 +1,41 @@
 import React, { useState } from "react";
 import  { addMonths, subMonths, startOfWeek, endOfWeek, startOfMonth, endOfMonth, isSameDay, isSameMonth, addDays, format, parse } from "date-fns";
 import "../styles/Calendar.css";
+import axios from 'axios';
+import SearchBar from "./SearchBar"
 
 const Calendar = (props) => {
+   const [user, setUser] = useState("");
+   const [searchIc, setSearchIc] = useState('');
+
+    const handleButtonClick = (e) =>{
+      console.log(searchIc)
+      axios.get(`http://127.0.0.1:5000/api/v1/users/show_patient?ic_number=${searchIc}`, 
+      {
+        headers: {
+          "Authorization": "Bearer " + localStorage.getItem("token")
+        }
+      })
+        .then(result => {
+          let user = result.data
+          console.log(result.data)
+          console.log(user.name, user.email, user.ic_number, user.disease, user.guardian)
+          setUser(result.data)
+
+          setSearchIc("")
+        })
+        .catch(error => {
+          console.log('ERROR: ', error)
+      })
+    }
+
+    const handleKeypress = e => {
+      //it triggers by pressing the enter key
+    if (e.key === "Enter") {
+      handleButtonClick();
+      }
+    };
+
     const {showAppointment, setShowAppointment} = props;
     const [currentDate, setCurrentDate] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -40,15 +73,6 @@ const Calendar = (props) => {
        }
        return <div className="days row-calendar ">{days}</div>;
     };
-
-   //  const handleAppointment = (e) => {
-   //     if (showAppointment == null){
-   //        setShowAppointment(false);
-   //     } else{
-   //        setShowAppointment(true);
-   //     }
-       
-   //  }
 
     const cells = () => {
     const monthStart = startOfMonth(currentDate);
@@ -96,11 +120,15 @@ const Calendar = (props) => {
     }
     
     return (
-       <div className="calendar">
-          <div>{header()}</div>
-          <div>{daysOfWeek()}</div>
-          <div>{cells()}</div>
-       </div>
+      <>
+         <SearchBar onButtonClick={handleButtonClick} searchIc={searchIc} setSearchIc={setSearchIc} onEnterPress={handleKeypress} />
+         <br/>
+         <div className="calendar">
+            <div>{header()}</div>
+            <div>{daysOfWeek()}</div>
+            <div>{cells()}</div>
+         </div>
+      </>
       );
     };
     export default Calendar;

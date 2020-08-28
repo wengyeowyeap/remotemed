@@ -7,8 +7,8 @@ import HomeSignInPage from './pages/HomeSignInPage'
 import DoctorPage from './pages/DoctorPage'
 import Topbar from './components/Topbar';
 import PatientPage from './pages/PatientPage'
-import Example from "./testing";
 import Footer from './components/Footer'
+import HomeHighlight from './components/HomeHighlight';
 
 function App() {
   const [token, setToken] = useState(null)
@@ -29,16 +29,22 @@ function App() {
                   <AdminPage/>
                 </Route>
                 
-              <Route path="/patient">
-                <PatientPage/>
-              </Route>
+                <Route path="/patient">
+                  <PatientPage/>
+                </Route>
+
                 <Route path="/doctor">
                   <DoctorPage/>
                 </Route>
 
           </Switch>
           </div>
-          <Footer/>     
+          {
+            token
+            ? null
+            : <HomeHighlight/>
+          }
+          <Footer/> 
       </div>   
   
     </>
