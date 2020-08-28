@@ -5,12 +5,13 @@ import { toast } from 'react-toastify';
 import toastify from 'react-toastify'
 import { useHistory } from 'react-router-dom'
 import { it } from 'date-fns/locale';
-import UploadImageForm from './UploadImageForm'
 
 
 
 
-const PatientReadingForm = () => {
+const PatientReadingForm = (props) => {
+    const {appointment_id}=props
+    
     document.title = "Patient's Page"
     const history = useHistory()
 
@@ -55,20 +56,22 @@ const PatientReadingForm = () => {
         }
         formData.append("image_count",imageFile.length)
 
-        formData.append("glucose",glucose)
-        formData.append("sys",sys)
-        formData.append("dia",dia)
-        formData.append("tc",tc)
-        formData.append("hdl",hdl)
-        formData.append("tg",tg)
-        formData.append("ldl",ldl)
+        formData.append("sugar_level",glucose)
+        formData.append("systolic_blood_pressure",sys)
+        formData.append("diastolic_blood_pressure",dia)
+        formData.append("cholestrol_level",tc)
+        // formData.append("hdl",hdl)
+        // formData.append("tg",tg)
+        // formData.append("ldl",ldl)
+        formData.append("appointment_id",appointment_id)
+        
 
         console.log(formData)
 
         
         axios({
             method: "POST",
-            url: "apiendpoint",
+            url: "http://127.0.0.1:5000/api/v1/records/create",
             headers:{
                 "Authorization":"Bearer "+ localStorage.getItem("token")
             },
@@ -76,6 +79,7 @@ const PatientReadingForm = () => {
 
         })
             .then(result => {
+                console.log(result.data)
                 toast.success("Reading succesfully submitted")
                 setGlucose("")
                 setSys("")
@@ -86,7 +90,7 @@ const PatientReadingForm = () => {
                 setLdl("")
                 setImageFile([])
                 setCaption([])
-                history.push('/admin')
+                history.push('/patient')
             })
             .catch(err => {
                 console.log("Error : ", err)
@@ -162,6 +166,7 @@ const PatientReadingForm = () => {
 
     return (
         <>
+        
             
             <Form onSubmit={handleSubmit}>
                 <FormGroup>
@@ -192,7 +197,7 @@ const PatientReadingForm = () => {
                         <InputGroupAddon addonType="prepend">TC</InputGroupAddon>
                         <Input onChange={handleInput} value={tc} name="tc" placeholder="value" min={0} max={100} type="number" step="0.1" />
                         <InputGroupAddon addonType="append">mmol/L</InputGroupAddon>
-                        <InputGroupAddon className="pl-3" addonType="prepend">HDL</InputGroupAddon>
+                        {/* <InputGroupAddon className="pl-3" addonType="prepend">HDL</InputGroupAddon>
                         <Input onChange={handleInput} value={hdl} name="hdl" placeholder="value" min={0} max={100} type="number" step="0.1" />
                         <InputGroupAddon addonType="append">mmol/L</InputGroupAddon>
                         <InputGroupAddon className="pl-3" addonType="prepend">TG</InputGroupAddon>
@@ -200,7 +205,7 @@ const PatientReadingForm = () => {
                         <InputGroupAddon addonType="append">mmol/L</InputGroupAddon>
                         <InputGroupAddon className="pl-3" addonType="prepend">LDL</InputGroupAddon>
                         <Input onChange={handleInput} value={ldl} name="ldl" placeholder="value" min={0} max={100} type="number" step="0.1" />
-                        <InputGroupAddon addonType="append">mmol/L</InputGroupAddon>
+                        <InputGroupAddon addonType="append">mmol/L</InputGroupAddon> */}
                     </InputGroup>
 
 
@@ -215,7 +220,7 @@ const PatientReadingForm = () => {
                     </FormText>
                 </FormGroup>
 
-                <Button color="primary">Submit</Button>
+                <Button className="mb-5" color="primary">Submit</Button>
             </Form>
 
 
