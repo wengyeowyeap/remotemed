@@ -53,6 +53,9 @@ const Topbar = (props) => {
           <NavLink tag={RouterNavLink} to="/patient" style={{color:"#205072"}}>
               Patient
           </NavLink>
+          <NavLink tag={RouterNavLink} to="/guardian" style={{color:"#205072"}}>
+              Guardian
+          </NavLink>
           {/* end */}
 
           <NavLink style={{color:"#205072"}}>

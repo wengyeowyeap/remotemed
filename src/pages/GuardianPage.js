@@ -1,26 +1,34 @@
 import React, { useState } from 'react';
 import { Container, TabContent, TabPane, Nav, NavItem, NavLink, Row, Col } from 'reactstrap';
 import classnames from 'classnames';
-import { faHospitalUser, faEdit, faCalendarCheck } from "@fortawesome/free-solid-svg-icons";
+import { faUserPlus, faHospitalUser, faUserEdit, faEdit, faCalendarPlus, faCalendarCheck, faCalendarTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import PatientList2 from "../components/PatientList2"
 import EditPersonalForm from "../components/EditPersonalForm"
 import "../styles/Dashboard.css";
-import MeApptList from '../components/MeApptList';
+import GuardianPatientList from '../components/GuardianPatientList';
+import GuardianPatientRecord from '../components/GuardianPatientRecord';
+import { NavLink as RouterNavLink } from 'react-router-dom';
 
-const DoctorPage = (props) => {
-  const{isDoctor} = props
+const GuardianPage = (props) => {
+    const {token, setToken} = props;
   const [activeTab, setActiveTab] = useState('1');
-  const [user, setUser] = useState({});
+
   const toggle = tab => {
     if(activeTab !== tab) setActiveTab(tab);
   }
 
+  const [isPatient, setIsPatient] = useState("");
+  const [isGuardian, setIsGuardian] = useState("");
+  const [user, setUser] = useState({});
+  console.log(user)
+  console.log(isGuardian)
+
   return (
       <Container className="mt-5 mb-3 bg-light">
         <div className="dashboard">
-        <h2 style={{color:"#205072"}}> - Welcome, Dr. {user.name} - </h2>
+        <h2 style={{color:"#205072"}}> - Welcome, {user.name} - </h2>
         <br/>
+
         <Row>
         <Col sm="3">
             
@@ -32,14 +40,15 @@ const DoctorPage = (props) => {
                     >
                         <Row>
                             <Col sm="2">
-                                <FontAwesomeIcon icon={faCalendarCheck} size="sm"/>
+                                <FontAwesomeIcon icon={faUserPlus} size="sm"/>
                             </Col>
                             <Col sm="10">
-                                Appointment Schedules
+                                Edit Patient's Profile
                             </Col>    
                         </Row>
                     </NavLink>
                     </NavItem>
+
                     <NavItem>
                     <NavLink
                         className={classnames({ active: activeTab === '2' })}
@@ -47,14 +56,15 @@ const DoctorPage = (props) => {
                     >
                         <Row>
                             <Col sm="2">
-                                <FontAwesomeIcon icon={faHospitalUser} size="sm"/>  
+                                <FontAwesomeIcon icon={faEdit} size="sm"/>  
                             </Col>
                             <Col sm="10">
-                                Check Patients
+                                Check Patient's Record
                             </Col>    
                         </Row>
                     </NavLink>
                     </NavItem>
+
                     <NavItem>
                     <NavLink
                         className={classnames({ active: activeTab === '3' })}
@@ -62,7 +72,7 @@ const DoctorPage = (props) => {
                     >
                         <Row>
                             <Col sm="2">
-                                <FontAwesomeIcon icon={faEdit} size="sm"/> 
+                                <FontAwesomeIcon icon={faEdit} size="sm"/>  
                             </Col>
                             <Col sm="10">
                                 Edit Personal Profile
@@ -70,28 +80,35 @@ const DoctorPage = (props) => {
                         </Row>
                     </NavLink>
                     </NavItem>
-                    
                 </Nav>
-            
+                <br/>
+                {isPatient && isGuardian
+                    ? <>
+                    <NavLink tag={RouterNavLink} to="/patient" style={{color:"#205072"}}>
+                        Redirect to Patient Page
+                    </NavLink>
+                    </>
+                    : null
+                }
+                   
 
         </Col>
         <Col sm="9">
             <TabContent activeTab={activeTab}>
                 <TabPane tabId="1">
                     <Col sm="12">
-                        <MeApptList/>
+                        <GuardianPatientList guardian={user}/>
                     </Col>
                 </TabPane>
                 <TabPane tabId="2">
                     <Col sm="12">
-                        
-                        <PatientList2/>
+                        <GuardianPatientRecord guardian={user}/>
                     </Col>
                 </TabPane>
-                <TabPane tabId="3">              
+                <TabPane tabId="3">
                     <Col sm="12">
-                        <EditPersonalForm user={user} setUser={setUser}/>
-                    </Col>              
+                        <EditPersonalForm user={user} setUser={setUser} setIsPatient={setIsPatient} setIsGuardian={setIsGuardian}/>
+                    </Col>
                 </TabPane>
             </TabContent>
         </Col>
@@ -101,4 +118,4 @@ const DoctorPage = (props) => {
   );
 }
 
-export default DoctorPage;
+export default GuardianPage;

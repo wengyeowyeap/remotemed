@@ -18,10 +18,16 @@ const SearchBar = ({ onButtonClick, searchIc, setSearchIc, onEnterPress }) => {
                 <div className="container h-100">
                     <div className="d-flex justify-content-end h-100">
                         <div className="searchbar">
-                        <input className="search_input" maxLength = "12" type="text" value={searchIc} onChange={handleIcSearch} onKeyPress={onEnterPress} placeholder="Search NRIC Number..."/>
-                        <button className="search_icon" onClick={() => onButtonClick(searchIc)}>
-                            <FontAwesomeIcon icon={faSearch} size="sm"/>
-                        </button>
+                            {
+                                handleIcSearch
+                                ? <><input className="search_input" maxLength = "12" type="text" value={searchIc} onChange={handleIcSearch} onKeyPress={onEnterPress} placeholder="Search NRIC Number..."/>
+                                <button className="search_icon" onClick={() => onButtonClick(searchIc)}>
+                                    <FontAwesomeIcon icon={faSearch} size="sm"/>
+                                </button></>
+                                : null
+                                
+                            }
+                        
                         </div>
                     </div>
                 </div>
