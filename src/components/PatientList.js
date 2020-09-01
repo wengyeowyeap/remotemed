@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import { Table, Modal, NavLink } from 'reactstrap';
 import axios from 'axios';
 import PatientReport from "./PatientReport"
@@ -126,13 +126,17 @@ const PatientList = (props) => {
                   <th scope="row">Disease</th>
                         <td style = {{textTransform:"capitalize"}}>
                         <ul style={{listStyleType:"none", paddingInlineStart:"0px"}}>
-                    {disease.map((d) => {
-                      return(
-                        <>
-                        <li>{d}</li>
-                        </>
-                      )
-                    })}
+                        { disease
+                          ? <> {disease.map((d) => {
+                              return(
+                                <>
+                                <li>{d}</li>
+                                </>
+                              )
+                            })} </>
+                          : <h5>No diseases found.</h5>
+                        }
+                            
                         </ul>
                       </td>
                 </tr>

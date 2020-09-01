@@ -140,8 +140,11 @@ const PatientPage = () => {
 
     return <>
 
-        <Container className="mt-5">
-        <h2 style={{color:"#205072"}}> - Welcome, Patient X - </h2>
+        <Container className="mt-5 mb-3 bg-light">
+        <div className="dashboard">
+        <h2 style={{color:"#205072"}}> - Welcome, PatientName to be set - </h2>
+        <br/>
+
             <Row>
                 <Col sm="3">
 
@@ -256,6 +259,7 @@ const PatientPage = () => {
                     </TabContent>
                 </Col>
             </Row>
+            </div>
         </Container>
   );</>
 

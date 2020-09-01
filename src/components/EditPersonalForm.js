@@ -4,13 +4,14 @@ import { toast } from "react-toastify"
 import {FormFeedback, FormText,FormGroup,Label,Input, Col, Row} from 'reactstrap';
 
 const EditPersonalForm = (props) => {
-  const {user, setUser} = props;
+  const {user, setUser,setIsPatient,setIsGuardian} = props;
   //initial setup
   // const [user, setUser] = useState({});
   const [name, setName] = useState("");
   const [icNum, setIcNum] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState ("");
+  const [role, setRole] = useState ([]);
   const [gender, setGender] = useState ("male");
   //states for handling input
   const [delayEmail, setDelayEmail] = useState(null);
@@ -31,6 +32,9 @@ const EditPersonalForm = (props) => {
         setEmail(user.email)
         setIcNum(user.ic_number)
         setGender(user.gender)
+        setRole(user.role)
+        setIsPatient(user.role.includes(1))
+        setIsGuardian(user.role.includes(2))
       })
       .catch(error => {
         console.log('ERROR: ', error)
@@ -40,7 +44,7 @@ const EditPersonalForm = (props) => {
     const handleEditPersonal = (e) =>{
         e.preventDefault()
         console.log("asdada")
-        console.log(name,password,email,icNum,gender)
+        console.log(name,password,email,icNum,gender,role)
 
         axios({
           method: 'POST',
@@ -192,7 +196,6 @@ const EditPersonalForm = (props) => {
                 <FormGroup>
                     <Label for="gender">Gender</Label>
                     <Input type="select" name="gender" onChange={handleGenderInput} value={gender}>
-                        <option value="choose">Choose</option>
                         <option value="male">Male</option>
                         <option value="female">Female</option>
                     </Input>

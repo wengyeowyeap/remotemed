@@ -5,6 +5,7 @@ import { ToastContainer } from 'react-toastify';
 import AdminPage from './pages/AdminPage';
 import HomeSignInPage from './pages/HomeSignInPage'
 import DoctorPage from './pages/DoctorPage'
+import GuardianPage from './pages/GuardianPage'
 import Topbar from './components/Topbar';
 import PatientPage from './pages/PatientPage'
 import Footer from './components/Footer'
@@ -37,13 +38,17 @@ function App() {
                   <DoctorPage/>
                 </Route>
 
+                <Route path="/guardian">
+                  <GuardianPage/>
+                </Route>
+
           </Switch>
           </div>
-          {
+          {/* {
             token
             ? null
             : <HomeHighlight/>
-          }
+          } */}
           <Footer/> 
       </div>   
   

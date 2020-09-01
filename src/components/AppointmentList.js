@@ -1,22 +1,39 @@
-import React from "react";
+import React,{useState} from "react";
+import { NavLink, Table } from 'reactstrap';
+
 
 const AppointmentList = (props) => {
+    const {eachAppointment,showApptList, searchIc} = props;
 
     return(
-    <>
-        {/* <SearchBar onButtonClick={handleButtonClick} searchIc={searchIc} setSearchIc={setSearchIc} onEnterPress={handleKeypress} /> */}
-        <br/>
-        <div>
-            {/* <h5>day:{day}</h5> */}
-            <ul>
-                <li>Appointment 1</li>
-                <li>Appointment 2</li>
-            </ul>
-        </div>
-
+    <> 
+        <Table>
+        <thead>
+            <tr>
+            <th>Appointments</th>
+            <th>Patient's Name: {searchIc}</th>
+            </tr>
+        </thead>
+        {
+        showApptList
+        ? <tbody>
+                <tr>
+                <th scope="row">Report List</th>
+                        <td style = {{textTransform:"capitalize"}}>
+                        <ul style={{listStyleType:"none", paddingInlineStart:"0px"}}>
+                        <div>{eachAppointment}</div>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        : null
+        }
+        </Table>
     </>
     )
 
 }
 
+
 export default AppointmentList;
+
