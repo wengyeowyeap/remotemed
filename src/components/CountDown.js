@@ -129,7 +129,7 @@ function CountDown(props) {
         setTimerComponent(timerComponents)
         // return timeLeft
     };
-    console.log(timerComp)
+    // console.log(timerComp)
     const stopTimer = () => {
         // return () => clearTimeout(timer)
 

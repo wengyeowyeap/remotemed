@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PatientReadingForm from '../components/PatientReadingForm'
 import CountDown from '../components/CountDown';
 import axios from 'axios'
+import PatientRecordList from '../components/PatientRecordList';
 
 
 
@@ -27,24 +28,26 @@ const PatientPage = () => {
                 }
             })
             .then(result => {
+                console.log("findingusername")
+                console.log(result.data)
 
                 let upcoming_appointments = result.data.patient_record
                 let newArray_appointments = []
                 let newArray_appointmenttime = []
                 upcoming_appointments.forEach(appointment => {
                     newArray_appointments.push(appointment)
-                    newArray_appointmenttime.push(appointment.appointment_time)
+                    newArray_appointmenttime.push(appointment.start_time)
                 });
 
                 setAppointments(newArray_appointments)
                 setAppointmenttimes(newArray_appointmenttime)
-            })
+            })  
     }, [])
     console.log(appointments)
     console.log(appointmenttimes)
 
     let testing = appointmenttimes.forEach(appointmenttime => {
-        console.log(typeof (appointmenttime))
+        // console.log(typeof (appointmenttime))
     })
 
 
@@ -65,7 +68,7 @@ const PatientPage = () => {
 
 
     }
-    console.log(formdisplay)
+    // console.log(formdisplay)
     let endtimeyear = 0
     let endtimemonth = 0
     let endtimeday = 0
@@ -73,12 +76,12 @@ const PatientPage = () => {
     let endtimeminute = 0
     if (appointments.length>0){
 
-        endtimeday = (appointments[0].appointment_endtime.slice(5, 7))
-        endtimemonth = (appointments[0].appointment_endtime.slice(8, 11))
-        endtimeyear = (appointments[0].appointment_endtime.slice(12, 16))
-        endtimehour = (appointments[0].appointment_endtime.slice(17, 19))
-        endtimeminute = (appointments[0].appointment_endtime.slice(20, 22))
-        console.log(endtimeminute)
+        endtimeday = (appointments[0].end_time.slice(5, 7))
+        endtimemonth = (appointments[0].end_time.slice(8, 11))
+        endtimeyear = (appointments[0].end_time.slice(12, 16))
+        endtimehour = (appointments[0].end_time.slice(17, 19))
+        endtimeminute = (appointments[0].end_time.slice(20, 22))
+        // console.log(endtimeminute)
     
         if (endtimemonth == "Jan") {
             endtimemonth = 0
@@ -120,13 +123,13 @@ const PatientPage = () => {
     // differnet is the seconds from currenttime to the date
     const aendtime = new Date(endtimeyear,endtimemonth, endtimeday, endtimehour, endtimeminute, 0, 0)
     const timenow = new Date()
-    console.log(aendtime - timenow)
+    // console.log(aendtime - timenow)
     // console.log(difference) 
     const triggerButton = (timeLeft) => {
         // let btn0=true
-        console.log(timeLeft["days"])
-        console.log(timeLeft["hours"])
-        console.log(timeLeft["minutes"])
+        // console.log(timeLeft["days"])
+        // console.log(timeLeft["hours"])
+        // console.log(timeLeft["minutes"])
         if ((timeLeft["days"] <= 0 && timeLeft["hours"] <= 0 && timeLeft["minutes"] < 15) && (aendtime - timenow > 0)) {
             setBtn0(false)
         }
@@ -138,6 +141,7 @@ const PatientPage = () => {
     return <>
 
         <Container className="mt-5">
+        <h2 style={{color:"#205072"}}> - Welcome, Patient X - </h2>
             <Row>
                 <Col sm="3">
 
@@ -206,13 +210,13 @@ const PatientPage = () => {
                                         if (index == 0) {
                                             return (
                                                 <>
-                                                    <li className="m-1"><Button disabled={btn0} color="primary" onClick={handleButton} style={{ width: "10vw" }}>{appointment.appointment_time}</Button></li>
+                                                    <li className="m-1"><Button disabled={btn0} color="primary" onClick={handleButton} style={{ width: "10vw" }}>{appointment.start_time}</Button></li>
                                                     <div style={{ display: formdisplay }}><PatientReadingForm appointment_id={appointment.appointment_id}/></div>
                                                 </>)
                                         } else {
                                             return <>
 
-                                                <li className="m-1"><Button disabled color="primary" onClick={handleButton} style={{ width: "10vw" }}>{appointment.appointment_time}</Button></li>
+                                                <li className="m-1"><Button disabled color="primary" onClick={handleButton} style={{ width: "10vw" }}>{appointment.start_time}</Button></li>
 
                                             </>
                                         }
@@ -227,7 +231,7 @@ const PatientPage = () => {
                         <TabPane tabId="2">
                             <Row>
                                 <Col sm="12">
-                                    <h5>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi non quis exercitationem culpa nesciunt nihil aut nostrum explicabo reprehenderit optio amet ab temporibus asperiores quasi cupiditate. Voluptatum ducimus voluptates voluptas?</h5>
+                                    <PatientRecordList/>
                                 </Col>
                             </Row>
                         </TabPane>

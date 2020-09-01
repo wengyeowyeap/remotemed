@@ -5,7 +5,7 @@ import { faHospitalUser, faEdit, faCalendarCheck } from "@fortawesome/free-solid
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SearchBar from "../components/SearchBar"
 import Calendar from "../components/Calendar"
-import PatientList from "../components/PatientList"
+import PatientList2 from "../components/PatientList2"
 import EditPersonalForm from "../components/EditPersonalForm"
 import "../styles/Dashboard.css";
 
@@ -85,7 +85,8 @@ const DoctorPage = (props) => {
                 </TabPane>
                 <TabPane tabId="2">
                     <Col sm="12">
-                        <PatientList/>
+                        
+                        <PatientList2/>
                     </Col>
                 </TabPane>
                 <TabPane tabId="3">              
