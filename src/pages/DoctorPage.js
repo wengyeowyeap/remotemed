@@ -9,7 +9,6 @@ import "../styles/Dashboard.css";
 import MeApptList from '../components/MeApptList';
 
 const DoctorPage = (props) => {
-  const{isDoctor} = props
   const [activeTab, setActiveTab] = useState('1');
   const [user, setUser] = useState({});
   const toggle = tab => {

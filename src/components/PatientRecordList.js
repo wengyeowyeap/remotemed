@@ -7,7 +7,7 @@ import ReportModal from './ReportModal';
 
 
 
-const PatientRecordList = () => {
+const PatientRecordList = ({user}) => {
     const [records, setRecords] = useState([])
     const [modal, setModal] = useState(false)
 
@@ -35,21 +35,31 @@ const PatientRecordList = () => {
 
 
 
-    return <ul>
-        {records.map(record => {
+    return (
+    <>
+    <h5 style={{color:"#205072"}}>Record</h5>
+    <br/>
+    
+    <ul style={{listStyleType:"none", paddingInlineStart:"0px"}}>
+        {records
+        ? <> {records.map(record => {
             return (
 
                 <li className="mb-1">
-                    <ReportModal record={record} />
+                    <ReportModal record={record} user={user}/>
                 </li> 
 
 
 
             )
 
-        })}
-    </ul>
+        })} </>
+        : null
+        }
 
+    </ul>
+    </>
+)
 
 
 

@@ -40,10 +40,13 @@ const LoginForm = (props) => {
             setToken(result.data.auth_token)
             setPassword("")
             setIc("")
-            if (result.data.user.role.includes("patient")){
+            if (result.data.user.role.includes("guardian") && (result.data.user.role.includes("patient"))){
+                history.push('/guardian')
+            }
+            if (result.data.user.role.includes("patient") && !result.data.user.role.includes("guardian")){
                 history.push('/patient')
             }
-            if (result.data.user.role.includes("guardian")){
+            if (result.data.user.role.includes("guardian")&& !result.data.user.role.includes("patient")){
                 history.push('/guardian')
             }
             if (result.data.user.role.includes("doctor")){

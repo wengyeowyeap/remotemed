@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { Container, TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
 import classnames from 'classnames';
-import { faUserPlus, faHospitalUser } from "@fortawesome/free-solid-svg-icons";
-import { faCalendarCheck } from "@fortawesome/free-regular-svg-icons";
+import { faUserPlus, faMarker, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PatientReadingForm from '../components/PatientReadingForm'
 import CountDown from '../components/CountDown';
 import axios from 'axios'
 import PatientRecordList from '../components/PatientRecordList';
+import EditPersonalForm from '../components/EditPersonalForm';
+import { NavLink as RouterNavLink } from 'react-router-dom';
 
 
 
@@ -19,7 +20,9 @@ const PatientPage = () => {
     const [button, setButton] = useState(true)
     const [appointmenttimes, setAppointmenttimes] = useState([])
     const [btn0, setBtn0] = useState(true)
-    
+    const [isPatient, setIsPatient] = useState("");
+    const [isGuardian, setIsGuardian] = useState("");
+    const [user, setUser] = useState({});
 
     useEffect(() => {
         axios.get('http://127.0.0.1:5000/api/v1/appointments/me',
@@ -146,62 +149,70 @@ const PatientPage = () => {
 
         <Container className="mt-5 mb-3 bg-light">
         <div className="dashboard">
-        <h2 style={{color:"#205072"}}> - Welcome, PatientName to be set - </h2>
+        <h2 style={{color:"#205072"}}> - Welcome, {user.name} - </h2>
         <br/>
 
             <Row>
                 <Col sm="3">
-
-                    <Nav tabs className="flex-column nav-pills">
-                        <NavItem>
-                            <NavLink
-                                className={classnames({ active: activeTab === '1' })}
-                                onClick={() => { toggle('1'); }}
-                            >
-                                <Row>
-                                    <Col sm="2">
-                                        <FontAwesomeIcon icon={faUserPlus} size="sm" />
-                                    </Col>
-                                    <Col sm="10">
-                                        Appointment
+                <Nav tabs className="flex-column nav-pills"> 
+                    <NavItem>
+                    <NavLink
+                        className={classnames({ active: activeTab === '1' })}
+                        onClick={() => { toggle('1'); }}
+                    >
+                        <Row>
+                            <Col sm="2">
+                                <FontAwesomeIcon icon={faUserPlus} size="sm" />
                             </Col>
-                                </Row>
-                            </NavLink>
-                        </NavItem>
+                            <Col sm="10">
+                                Appointment
+                            </Col>    
+                        </Row>
+                    </NavLink>
+                    </NavItem>
 
-                        <NavItem>
-                            <NavLink
-                                className={classnames({ active: activeTab === '2' })}
-                                onClick={() => { toggle('2'); }}
-                            >
-                                <Row>
-                                    <Col sm="2">
-                                        <FontAwesomeIcon icon={faCalendarCheck} size="sm" />
-                                    </Col>
-                                    <Col sm="10">
-                                        Records
+                    <NavItem>
+                    <NavLink
+                        className={classnames({ active: activeTab === '2' })}
+                        onClick={() => { toggle('2'); }}
+                    >
+                        <Row>
+                            <Col sm="2">
+                                <FontAwesomeIcon icon={faMarker} size="sm"/>  
                             </Col>
-                                </Row>
-                            </NavLink>
-                        </NavItem>
+                            <Col sm="10">
+                                Patient's Record
+                            </Col>    
+                        </Row>
+                    </NavLink>
+                    </NavItem>
 
-                        {/* <NavItem>
+                    <NavItem>
                     <NavLink
                         className={classnames({ active: activeTab === '3' })}
                         onClick={() => { toggle('3'); }}
                     >
                         <Row>
                             <Col sm="2">
-                                <FontAwesomeIcon icon={faHospitalUser} size="sm"/>  
+                                <FontAwesomeIcon icon={faEdit} size="sm"/> 
                             </Col>
                             <Col sm="10">
-                                Check Patients
+                                Edit Personal Profile
                             </Col>    
                         </Row>
                     </NavLink>
-                    </NavItem> */}
+                    </NavItem>
+                </Nav>
 
-                    </Nav>
+                    <br/>
+                    {isPatient && isGuardian
+                        ? <>
+                        <NavLink tag={RouterNavLink} to="/guardian" style={{color:"#205072"}}>
+                            Redirect to Guardian Page
+                        </NavLink>
+                        </>
+                        : null
+                    }
 
 
                 </Col>
@@ -210,21 +221,27 @@ const PatientPage = () => {
                         <TabPane tabId="1">
                             <Row>
                                 <Col sm="12">
-                                    <div style={{ display: "flex" }}><CountDown closest_appointment_datetime={appointmenttimes[0]} triggerButton={triggerButton} /></div>
+                                    <p>Next appointment:</p>
+                                    <h3 style={{ color:"#205072"}}><CountDown closest_appointment_datetime={appointmenttimes[0]} triggerButton={triggerButton} /></h3>
                                     <p>You will have {appointments.length} upcoming appointments following date.</p>
                                     <p>You can only click on your appointment to and fill up ur readings 15mins before your appointment.</p>
+                                    <br/>
                                     {appointments.map((appointment, index) => {
                                         if (index == 0) {
                                             return (
                                                 <>
-                                                    <li className="m-1"><Button disabled={btn0} color="primary" onClick={handleButton} style={{ width: "10vw" }}>{appointment.start_time}</Button></li>
-                                                    <div style={{ display: formdisplay }}><PatientReadingForm appointment_id={appointment.appointment_id}/></div>
+                                                <ul style={{listStyleType:"none", paddingInlineStart:"0px"}}>
+                                                    <li><NavLink disabled={btn0} onClick={handleButton}>{appointment.start_time}</NavLink></li>
+                                                    <li className="border border-secondary p-4" style={{ display: formdisplay }}>
+                                                        <div><PatientReadingForm appointment_id={appointment.appointment_id}/></div>
+                                                    </li>
+                                                </ul>
                                                 </>)
                                         } else {
                                             return <>
-
-                                                <li className="m-1"><Button disabled color="primary" onClick={handleButton} style={{ width: "10vw" }}>{appointment.start_time}</Button></li>
-
+                                                <ul style={{listStyleType:"none", paddingInlineStart:"0px"}}>
+                                                <li><NavLink disabled onClick={handleButton}>{appointment.start_time}</NavLink></li>
+                                                </ul>
                                             </>
                                         }
 
@@ -238,34 +255,21 @@ const PatientPage = () => {
                         <TabPane tabId="2">
                             <Row>
                                 <Col sm="12">
-                                    <PatientRecordList/>
+                                    <PatientRecordList user={user}/>
                                 </Col>
                             </Row>
                         </TabPane>
                         <TabPane tabId="3">
-                            <Row>
-                                <Col sm="6">
-                                    <Card body>
-                                        <CardTitle>Special Title Treatment</CardTitle>
-                                        <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                                        <Button>Go somewhere</Button>
-                                    </Card>
-                                </Col>
-                                <Col sm="6">
-                                    <Card body>
-                                        <CardTitle>Special Title Treatment</CardTitle>
-                                        <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                                        <Button>Go somewhere</Button>
-                                    </Card>
-                                </Col>
-                            </Row>
+                            <Col sm="12">
+                                <EditPersonalForm user={user} setUser={setUser} setIsPatient={setIsPatient} setIsGuardian={setIsGuardian}/>
+                            </Col>
                         </TabPane>
                     </TabContent>
                 </Col>
             </Row>
             </div>
         </Container>
-  );</>
+  </>
 
 }
 

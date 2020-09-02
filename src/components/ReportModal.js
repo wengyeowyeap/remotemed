@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, NavLink } from 'reactstrap';
 import PatientReport2 from "./PatientReport2"
 
 const ReportModal = (props) => {
   const {
-    record
+    record, user
   } = props;
 
 
@@ -15,11 +15,11 @@ const ReportModal = (props) => {
 
   return (
     <div>
-      <Button color="danger" onClick={toggle}>{record.appointment_id}</Button>
+      <NavLink color="danger" onClick={toggle}>{record.appointment_id}</NavLink>
       <Modal size="lg" isOpen={modal} toggle={toggle} >
         <ModalHeader toggle={toggle}>Modal title</ModalHeader>
         <ModalBody>
-            <PatientReport2 record={record} />
+            <PatientReport2 user={user} record={record} />
 
         </ModalBody>
         <ModalFooter>
