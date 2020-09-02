@@ -15,4 +15,5 @@
 
 .dashboard a:hover{
   cursor:pointer;
+  color:#205072 !important; 
 }

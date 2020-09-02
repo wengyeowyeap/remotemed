@@ -29,7 +29,7 @@ const MakeAppointmentForm = () => {
           }
         })
         .then(response => {
-          toast.success("Successfully created a user.", {
+          toast.success("Successfully make an appointment.", {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
@@ -97,7 +97,7 @@ const MakeAppointmentForm = () => {
       if (doctorIcNum.length === 0){
         icDoctorFormFeedback = <FormFeedback></FormFeedback>
       } else if (doctorIcNum.match(icDoctorFormat) && icDoctorValid){
-        icDoctorFormFeedback = <FormText color="success">Doctor's Name:{doctor.name}</FormText>
+        icDoctorFormFeedback = <FormText color="success">Doctor's Name: {doctor.name}</FormText>
         icDoctorIsValid = true
         icDoctorIsInvalid = false
       } else if (!doctorIcNum.match(icDoctorFormat)){    
@@ -152,7 +152,7 @@ const MakeAppointmentForm = () => {
     if (patientIcNum.length === 0){
       icPatientFormFeedback = <FormFeedback></FormFeedback>
     } else if (patientIcNum.match(icPatientFormat) && icPatientValid){
-      icPatientFormFeedback = <FormText color="success">Patient's Name:{patient.name}</FormText>
+      icPatientFormFeedback = <FormText color="success">Patient's Name: {patient.name}</FormText>
       icPatientIsValid = true
       icPatientIsInvalid = false
     } else if (!patientIcNum.match(icPatientFormat)){    

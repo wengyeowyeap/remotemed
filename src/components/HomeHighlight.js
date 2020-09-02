@@ -21,9 +21,6 @@ const HomeHighlight = () => (
                 <li>- <a href="https://intouchhealth.com/finding-the-right-term-for-modern-digital-healthcare/" target="_blank">Knowledge 1</a></li>
                 <li>- <a href="#">Nam mauris velit</a></li>
                 <li>- <a href="#">Etiam vitae mauris</a></li>
-                <li>- <a href="#">Fusce scelerisque</a></li>
-                <li>- <a href="#">Sed faucibus</a></li>
-                <li>- <a href="#">Mauris efficitur nulla</a></li>
                 </ul>
             </div>
             <div className="col-lg-4 col-xs-12 location">

@@ -219,8 +219,9 @@ const PatientReadingForm = (props) => {
                         Upload Image if neccessary.
                     </FormText>
                 </FormGroup>
+                <br/>
+                <Input type="submit" className="btn btn-primary btn-block" value="SUBMIT"/>{' '}
 
-                <Button className="mb-5" color="primary">Submit</Button>
             </Form>
 
 

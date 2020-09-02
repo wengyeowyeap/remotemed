@@ -17,10 +17,10 @@ const PatientReport2 = (props) => {
     return(
         <div className = "d-flex flex-column mx-2">
             <ModalHeader toggle={toggle}>
-                <h3> <span style={{color:"#205072", fontWeight:"bold", textTransform:"uppercase"}}>abcdefg</span>'s Report</h3>
+            <h3> <span style={{color:"#205072", fontWeight:"bold", textTransform:"uppercase"}}>{user.name}</span>'s Report</h3>
                     <small>- Datetime -</small>
             </ModalHeader> 
-            <ModalBody>
+            <ModalBody> 
                 <Table className="patient-report table-borderless">
                 <tbody>
                     <tr>

@@ -3,7 +3,7 @@ import axios from 'axios'
 import { toast } from 'react-toastify';
 import { Modal, Row, Col} from 'reactstrap';
 import { NavLink } from 'reactstrap';
-import PatientReport from "./PatientReport"
+import PatientReport2 from './PatientReport2';
 
 const GuardianPatientRecord = (props) => {
     const{guardian, className} = props;
@@ -30,7 +30,6 @@ const GuardianPatientRecord = (props) => {
             let patientList = result.data.my_patient
             console.log(result.data.my_patient)
             setPatientList(patientList)
-
           })
           .catch(error => {
             console.log('ERROR: ', error)
@@ -55,8 +54,8 @@ const GuardianPatientRecord = (props) => {
             }
           })
             .then(result => {
-              let report = result.data.doctor_record
-              console.log(result.data.doctor_record)
+              let report = result.data.my_patient_record
+              console.log(result.data.my_patient_record)
               setReport(report)
               setAppointmentId(report.appointment_id)
             })
@@ -64,6 +63,23 @@ const GuardianPatientRecord = (props) => {
               console.log('ERROR: ', error)
           })
         }
+
+        const handlePatientName = (e) =>{
+        axios.get(`http://127.0.0.1:5000/api/v1/users/show_patient?ic_number=${e}`, 
+        {
+          headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+          }
+        })
+          .then(result => {
+            let user = result.data
+            console.log(result.data)
+            setUser(user)
+          })
+          .catch(error => {
+            console.log('ERROR: ', error)
+        })
+      }
 
         const handleReportDisplay = (e) =>{
             console.log(e)
@@ -103,35 +119,38 @@ const GuardianPatientRecord = (props) => {
                             return(
                                 <>
                                     <li key={li}>
-                                        <NavLink value={list.ic_number} onClick={() => handleReportList(list.ic_number)}>{list.name}</NavLink>
+                                        <NavLink value={list.ic_number} onClick={() => {handleReportList(list.ic_number); handlePatientName(list.ic_number)}}>{list.name}</NavLink>
                                     </li>
                                 </>
                             )
                         })}
                 </ul>
-            : <h5>Record not found</h5>
+            : null
         }
         </div>
         </Col>
 
         <Col md="8">
+          <h5 style={{color:"#205072"}}>Record</h5>
+          <br/>
+
         {
-          user
+          report
           ? <> 
           <ul style={{listStyleType:"none", paddingInlineStart:"0px"}}>
           {report.map((relist,reli) => {
               return(
                 <li key={reli}>
-                <NavLink onClick={() => {toggle(); handleReportDisplay(relist.appointment_id);}}>{relist.record_id}</NavLink>
+                <NavLink onClick={() => {toggle(); handleReportDisplay(relist.record_id);}}>{relist.record_id}</NavLink>
                     <Modal size="xl" isOpen={modal} toggle={toggle} className={className}>
-                    <PatientReport searchIc={icNum} user={user} name={name} modal={modal} report={report} sugarLevel={sugarLevel} cholesterolLevel={cholesterolLevel} sysBloodPressure={sysBloodPressure} diaBloodPressure={diaBloodPressure} toggle={toggle} />
+                    <PatientReport2 record={record} toggle={toggle} user={user}/>
                     </Modal> 
                 </li>
                 )
             })}
             </ul> 
-            </> 
-          : null
+            </>
+            : <h5>no record</h5>
         }
         </Col>
         </Row> 

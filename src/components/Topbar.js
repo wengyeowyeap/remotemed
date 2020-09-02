@@ -10,8 +10,9 @@ import {
 import { NavLink as RouterNavLink } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useHistory } from 'react-router-dom';
-import { faSignOutAlt} from "@fortawesome/free-solid-svg-icons";
+import { faSignOutAlt, faPhone, faFax} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 
 const Topbar = (props) => {
   const {token, setToken} = props
@@ -30,7 +31,7 @@ const Topbar = (props) => {
   return (
     <div>
       <Navbar className="navbar" expand="md">
-        <NavbarBrand tag={RouterNavLink} to="/">
+        <NavbarBrand>
             <div>
               <img className="mr-3" src = "https://www.columbiaasia.com/malaysia/sites/default/files/logo-cah.png" alt="Home"></img>  
             </div>
@@ -44,7 +45,7 @@ const Topbar = (props) => {
           </Nav>
 
           {/* temporary working use */}
-          <NavLink tag={RouterNavLink} to="/admin" style={{color:"#205072"}}>
+          {/* <NavLink tag={RouterNavLink} to="/admin" style={{color:"#205072"}}>
               Admin
           </NavLink>
           <NavLink tag={RouterNavLink} to="/doctor" style={{color:"#205072"}}>
@@ -55,7 +56,7 @@ const Topbar = (props) => {
           </NavLink>
           <NavLink tag={RouterNavLink} to="/guardian" style={{color:"#205072"}}>
               Guardian
-          </NavLink>
+          </NavLink> */}
           {/* end */}
 
           <NavLink style={{color:"#205072"}}>
@@ -64,7 +65,9 @@ const Topbar = (props) => {
                   ? <NavLink style={{color:"#205072", cursor:"pointer"}}onClick={handleSignOut}>
                       <FontAwesomeIcon icon={faSignOutAlt} size="sm" className="mr-2"/>Logout
                     </NavLink> 
-                  : <> </>
+                  : <></>
+                  
+                  
                 }
           </NavLink>
 
