@@ -3,6 +3,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import PatientReport2 from "./PatientReport2"
 import DoctorPatientRecord from './DoctorPatientRecord';
 import axios from 'axios';
+import { NavLink } from 'react-router-dom';
 
 const DoctorReportModal = (props) => {
   const {
@@ -56,12 +57,10 @@ const DoctorReportModal = (props) => {
 
   return (
     <div>
-      <Button className="mb-2" color="danger" onClick={toggle}>{record.appointment_id} </Button>
+      <Button className="mb-2" onClick={toggle}>{record.appointment_id} </Button>
       <Modal size="lg" isOpen={modal} toggle={toggle} >
-        <ModalHeader toggle={toggle}>Modal title</ModalHeader>
         <ModalBody>
             <DoctorPatientRecord record={record} getReportFromChildren={getReportFromChildren} getPrescriptionFromChildren={getPrescriptionFromChildren} />
-
         </ModalBody>
         <ModalFooter>
           <Button color="primary" onClick={submitRecord}>Submit Record</Button>{' '}

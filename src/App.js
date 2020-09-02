@@ -12,7 +12,7 @@ import Footer from './components/Footer'
 import HomeHighlight from './components/HomeHighlight';
 
 function App() {
-  const [token, setToken] = useState(null)
+  const [token, setToken] = useState(localStorage.getItem("token"))
 
   return (
     <>

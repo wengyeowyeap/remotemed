@@ -52,6 +52,7 @@ const PatientList2 = (props) => {
       .catch(error => {
         console.log('ERROR: ', error)
       })
+      
     axios.get(`http://127.0.0.1:5000/api/v1/records/show?ic_number=${searchIc}`,
       {
         headers: {

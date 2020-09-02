@@ -18,7 +18,7 @@ const PatientReport2 = (props) => {
         <div className = "d-flex flex-column mx-2">
             <ModalHeader toggle={toggle}>
             <h3> <span style={{color:"#205072", fontWeight:"bold", textTransform:"uppercase"}}>{user.name}</span>'s Report</h3>
-                    <small>- Datetime -</small>
+                    
             </ModalHeader> 
             <ModalBody> 
                 <Table className="patient-report table-borderless">
@@ -48,9 +48,12 @@ const PatientReport2 = (props) => {
                             <td style = {{textTransform:"capitalize"}}>
                                 <ul style={{listStyle:"none", paddingInlineStart:"0px"}}>
                                 <div >
-                                    {record.image_list.map(image=>{
+                                    { record.image_list
+                                    ?<>{record.image_list.map(image=>{
                                         return <img className="mb-2" style={{width:"100%", height:"200px"}} src={image} ></img>
-                                    })}
+                                    })}</>
+                                    :null
+                                    }
                                     </div>
                                 </ul>
                             </td>
@@ -60,7 +63,6 @@ const PatientReport2 = (props) => {
                             <td style = {{textTransform:"capitalize"}}>
                                 <ul style={{listStyle:"none", paddingInlineStart:"0px"}}>
                                 <li>{record.prescription}</li>
-                                <li>Med 2 and dose</li>
                                 </ul>
                             </td>
                     </tr>

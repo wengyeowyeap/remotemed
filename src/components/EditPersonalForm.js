@@ -4,7 +4,7 @@ import { toast } from "react-toastify"
 import {FormFeedback, FormText,FormGroup,Label,Input, Col, Row} from 'reactstrap';
 
 const EditPersonalForm = (props) => {
-  const {user, setUser} = props;
+  const {user, setUser,setIsPatient,setIsGuardian} = props;
   //initial setup
   // const [user, setUser] = useState({});
   const [name, setName] = useState("");
@@ -12,6 +12,7 @@ const EditPersonalForm = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState ("");
   const [gender, setGender] = useState ("male");
+  const [role, setRole] = useState ([]);
   //states for handling input
   const [delayEmail, setDelayEmail] = useState(null);
   const [emailNoDuplicate, setEmailNoDuplicate] = useState(false);
@@ -31,6 +32,9 @@ const EditPersonalForm = (props) => {
         setEmail(user.email)
         setIcNum(user.ic_number)
         setGender(user.gender)
+        setRole(user.role)
+        setIsPatient(user.role.includes(1))
+        setIsGuardian(user.role.includes(2))
       })
       .catch(error => {
         console.log('ERROR: ', error)
