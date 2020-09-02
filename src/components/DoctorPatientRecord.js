@@ -37,7 +37,7 @@ const DoctorPatientRecord = (props) => {
     return(
         <div className = "d-flex flex-column mx-2">
             <ModalHeader toggle={toggle}>
-                <h3> <span style={{color:"#205072", fontWeight:"bold", textTransform:"uppercase"}}>abcdefg</span>'s Report</h3>
+            <h3> <span style={{color:"#205072", fontWeight:"bold", textTransform:"uppercase"}}>{user}</span>'s Report</h3>
                     
             </ModalHeader> 
             <ModalBody>

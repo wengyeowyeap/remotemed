@@ -7,7 +7,7 @@ import { NavLink } from 'react-router-dom';
 
 const DoctorReportModal = (props) => {
   const {
-    record
+    record,user
   } = props;
   // console.log("#################################")
   // console.log(record.record_id)
@@ -57,10 +57,10 @@ const DoctorReportModal = (props) => {
 
   return (
     <div>
-      <Button className="mb-2" onClick={toggle}>{record.appointment_id} </Button>
+      <Button outline color="secondary" className="btn-block" onClick={toggle}>{record.appointment_id} </Button>
       <Modal size="lg" isOpen={modal} toggle={toggle} >
         <ModalBody>
-            <DoctorPatientRecord record={record} getReportFromChildren={getReportFromChildren} getPrescriptionFromChildren={getPrescriptionFromChildren} />
+            <DoctorPatientRecord record={record} getReportFromChildren={getReportFromChildren} getPrescriptionFromChildren={getPrescriptionFromChildren} user={user}/>
         </ModalBody>
         <ModalFooter>
           <Button color="primary" onClick={submitRecord}>Submit Record</Button>{' '}
