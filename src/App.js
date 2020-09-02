@@ -10,6 +10,8 @@ import Topbar from './components/Topbar';
 import PatientPage from './pages/PatientPage'
 import Footer from './components/Footer'
 import HomeHighlight from './components/HomeHighlight';
+import Payment from './components/Payment';
+import Zoom from './components/Zoom';
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem("token"))
@@ -38,8 +40,12 @@ function App() {
                   <DoctorPage/>
                 </Route>
 
-                <Route path="/guardian">
-                  <GuardianPage/>
+                <Route path="/videocall">
+                  <Zoom/>
+                </Route>
+
+                <Route path="/payment">
+                  <Payment/>
                 </Route>
 
           </Switch>
