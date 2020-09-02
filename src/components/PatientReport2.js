@@ -47,8 +47,11 @@ const PatientReport2 = (props) => {
                         <th scope="row">Images</th>
                             <td style = {{textTransform:"capitalize"}}>
                                 <ul style={{listStyle:"none", paddingInlineStart:"0px"}}>
-                                <li>image 1</li>
-                                <li>image 2</li>
+                                <div >
+                                    {record.image_list.map(image=>{
+                                        return <img className="mb-2" style={{width:"100%", height:"200px"}} src={image} ></img>
+                                    })}
+                                    </div>
                                 </ul>
                             </td>
                     </tr>
@@ -72,10 +75,10 @@ const PatientReport2 = (props) => {
                 </tbody>
                 </Table>
             </ModalBody>
-            <ModalFooter>
+            {/* <ModalFooter>
             <Button color="primary" disabled onClick={toggle}>Edit & Save</Button>{' '}
             <Button color="secondary" onClick={toggle}>Cancel</Button>
-            </ModalFooter>
+            </ModalFooter> */}
         </div>
     )
 }

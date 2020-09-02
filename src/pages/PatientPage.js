@@ -19,6 +19,7 @@ const PatientPage = () => {
     const [button, setButton] = useState(true)
     const [appointmenttimes, setAppointmenttimes] = useState([])
     const [btn0, setBtn0] = useState(true)
+    
 
     useEffect(() => {
         axios.get('http://127.0.0.1:5000/api/v1/appointments/me',
@@ -30,14 +31,17 @@ const PatientPage = () => {
             .then(result => {
                 console.log("findingusername")
                 console.log(result.data)
-
-                let upcoming_appointments = result.data.patient_record
+                let upcoming_appointments=[]
+                upcoming_appointments = result.data.patient_record
                 let newArray_appointments = []
                 let newArray_appointmenttime = []
-                upcoming_appointments.forEach(appointment => {
-                    newArray_appointments.push(appointment)
-                    newArray_appointmenttime.push(appointment.start_time)
-                });
+                if (upcoming_appointments){
+
+                    upcoming_appointments.forEach(appointment => {
+                        newArray_appointments.push(appointment)
+                        newArray_appointmenttime.push(appointment.start_time)
+                    });
+                }
 
                 setAppointments(newArray_appointments)
                 setAppointmenttimes(newArray_appointmenttime)
