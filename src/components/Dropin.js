@@ -1,11 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios'
 import DropIn from "braintree-web-drop-in-react"
+import { useHistory } from 'react-router-dom';
 
 const Dropin = ({patientId, amount, recordId}) => {
   const [btToken, setBtToken] = useState("");
   const [instance, setInstance] = useState("");
-
+  const history = useHistory()
+  
 useEffect(()=>{
   //Get the client token from Braintree
   axios.get(`http://127.0.0.1:5000/api/v1/payments/new?patient_id=${patientId}`, 
@@ -42,6 +44,7 @@ useEffect(()=>{
       })
         .then(result => {
           console.log(result.data)
+          history.push('/patient')
         })
         .catch(error => {
           console.log('ERROR: ', error)

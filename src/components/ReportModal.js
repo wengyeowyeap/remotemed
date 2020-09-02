@@ -19,11 +19,10 @@ const ReportModal = (props) => {
       <Modal size="lg" isOpen={modal} toggle={toggle} >
         <ModalHeader toggle={toggle}>Modal title</ModalHeader>
         <ModalBody>
-            <PatientReport2 user={user} record={record} />
+            <PatientReport2  user={user} record={record} />
 
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={toggle}>Do Something</Button>{' '}
           <Button color="secondary" onClick={toggle}>Cancel</Button>
         </ModalFooter>
       </Modal>

@@ -12,10 +12,12 @@ const DoctorReportModal = (props) => {
   // console.log("#################################")
   // console.log(record.record_id)
   console.log(record.image_list[2])
+  
 
   const [modal, setModal] = useState(false);
   let prescription=""
   let report=""
+  let payment = ''
   
   const submitRecord=() => {
     toggle()
@@ -30,7 +32,7 @@ const DoctorReportModal = (props) => {
         report:report,
         prescription:prescription,
         record_id:record.record_id,
-        payment_amount:record.payment_amount
+        payment_amount:payment
        
       }
     })
@@ -52,6 +54,12 @@ const DoctorReportModal = (props) => {
     
   }
   
+  const getPaymentFromChildren=(pay) => {
+    payment=pay
+    console.log(payment)
+    
+  }
+  
 
   const toggle = () => setModal(!modal);
 
@@ -60,7 +68,7 @@ const DoctorReportModal = (props) => {
       <Button outline color="secondary" className="btn-block" onClick={toggle}>{record.appointment_id} </Button>
       <Modal size="lg" isOpen={modal} toggle={toggle} >
         <ModalBody>
-            <DoctorPatientRecord record={record} getReportFromChildren={getReportFromChildren} getPrescriptionFromChildren={getPrescriptionFromChildren} user={user}/>
+            <DoctorPatientRecord record={record} getReportFromChildren={getReportFromChildren} getPaymentFromChildren={getPaymentFromChildren} getPrescriptionFromChildren={getPrescriptionFromChildren} user={user}/>
         </ModalBody>
         <ModalFooter>
           <Button color="primary" onClick={submitRecord}>Submit Record</Button>{' '}

@@ -2,16 +2,17 @@ import React, {useState, useEffect} from 'react';
 import { Card, CardTitle, CardText, Row, Col, Table } from 'reactstrap';
 import axios from 'axios'
 import Dropin from './Dropin';
+import { useParams } from 'react-router-dom';
 
 const Payment = () => {
   const [record, setRecord] = useState("");
   const [patientId, setPatientId] = useState("");
   const [amount, setAmount] = useState(0);
   const [recordId, setRecordId] = useState("");
-
+  const params = useParams()
 useEffect(()=>{
   // Get the info of the record for this payment
-  axios.get('http://127.0.0.1:5000/api/v1/records/search?record_id=1', 
+  axios.get(`http://127.0.0.1:5000/api/v1/records/search?record_id=${params.id}`, 
   {
     headers: {
       "Authorization": "Bearer " + localStorage.getItem("token")

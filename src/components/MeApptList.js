@@ -28,8 +28,10 @@ const MeApptList = (props) => {
       const [showAppt,setShowAppt] = useState(false)
       const [doctor, setDoctor] = useState("");
       const [patient, setPatient] = useState("");
+      const [patientIc, setPatientIc] = useState("");
       const [startDateTime, setStartDateTime] = useState("");
       const [endDateTime, setEndDateTime] = useState("");
+      const [zoomLink, setZoomLink] = useState("")   
 
       const handleMeApptClick = (e) =>{ 
         console.log(e)
@@ -43,10 +45,12 @@ const MeApptList = (props) => {
             let user = result.data
             console.log(result.data)
             setShowAppt(true)
-            setDoctor(user.doctor_id)
-            setPatient(user.patient_id)
+            setDoctor(user.doctor_name)
+            setPatient(user.patient_name)
+            setPatientIc(user.patient_ic)
             setStartDateTime(user.appointment_start)
             setEndDateTime(user.appointment_start)
+            setZoomLink(user.zoom_link)
           })
           .catch(error => {
             console.log('ERROR: ', error)
@@ -84,12 +88,12 @@ const MeApptList = (props) => {
             </thead>
             <tbody>
                 <tr>
-                  <th scope="row">Doctor ID</th>
+                  <th scope="row">Doctor</th>
                   <td>{doctor}</td>
                 </tr>
                 <tr>
-                  <th scope="row">Patient ID</th>
-                  <td>{patient}</td>
+                  <th scope="row">Patient</th>
+                    <td>{patient}: {patientIc}</td>
                 </tr>
                 <tr>
                   <th scope="row">Start Datetime</th>
@@ -102,6 +106,10 @@ const MeApptList = (props) => {
             </tbody>
           </Table>
           : null
+        }
+        <br/>
+        {
+         zoomLink==""  ? null : <a href={zoomLink} target="_blank" style={{fontSize:"1.3rem"}}>Enter Appointment</a>
         }
     </>  
     )

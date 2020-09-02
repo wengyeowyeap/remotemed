@@ -4,13 +4,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const DoctorPatientRecord = (props) => {
     
-    const {toggle, user, sugarLevel, cholesterolLevel, bloodPressure,record , getReportFromChildren , getPrescriptionFromChildren} = props
+    const {toggle, user, sugarLevel, cholesterolLevel, bloodPressure, record , getReportFromChildren ,getPaymentFromChildren, getPrescriptionFromChildren} = props
     const [paid,setPaid]=useState(record.paid)
     const [report,setReport]=useState("")
     const [prescription,setPrescription]=useState("")
-
-    
-
+    const [payment,setPayment]=useState("")
 
 
     const handleInput=(e) => {
@@ -20,17 +18,15 @@ const DoctorPatientRecord = (props) => {
         }
 
         if (e.target.name=="prescription"){
-            setReport(e.target.value)
+            setPrescription(e.target.value)
             getPrescriptionFromChildren(e.target.value)
         }
         
-      
+        if (e.target.name=="payment_amount"){
+            setPayment(e.target.value)
+            getPaymentFromChildren(e.target.value)
+        }
 
-    }
-
-
-    const handlePayment=() => {
-      
     }
 
       
@@ -85,7 +81,9 @@ const DoctorPatientRecord = (props) => {
                     </tr>
                     <tr>
                         <th scope="row">Payment</th>
-                        <td>{record.payment_amount}</td>
+                        <td style = {{textTransform:"capitalize"}}>
+                                <Input onChange={handleInput} name="payment_amount"></Input>
+                            </td>
                     </tr>
                     <tr>
                         <th scope="row">Payment Status</th>

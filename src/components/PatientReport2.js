@@ -1,6 +1,7 @@
 import React ,{useState} from "react";
 import {Button, ModalFooter, ModalHeader, ModalBody,Table} from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useHistory } from 'react-router-dom';
 
 const PatientReport2 = (props) => {
     
@@ -9,11 +10,8 @@ const PatientReport2 = (props) => {
     console.log("beforepaid")
     console.log(paid)
 
-    const handlePayment=() => {
-      
-    }
+    const history = useHistory()
 
-      
     return(
         <div className = "d-flex flex-column mx-2">
             <ModalHeader toggle={toggle}>
@@ -68,7 +66,7 @@ const PatientReport2 = (props) => {
                     </tr>
                     <tr>
                         <th scope="row">Payment</th>
-                        {record.paid?<td> {record.payment_amount} has been paid. </td> : <> <td>{record.payment_amount}</td> <Button onClick={handlePayment} color="primary">Pay Now</Button> </>}
+                        {record.paid?<td> {record.payment_amount} has been paid. </td> : <> <td>{record.payment_amount}</td> <Button onClick={()=>history.push(`/payment/${record.record_id}`)} color="primary">Pay Now</Button> </>}
                     </tr>
                     <tr>
                         <th scope="row">Payment Status</th>
